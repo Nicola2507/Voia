@@ -11,12 +11,12 @@
 - **Stack:** Astro 6 + Tailwind v4 (`@tailwindcss/vite`) + Supabase (not wired yet), deploy on Netlify *(decided)*
 - **Live preview URL:** https://celebrated-gumption-a7231a.netlify.app
 - **GitHub repo:** https://github.com/Nicola2507/Voia
-- **Last updated:** 1 July 2026
+- **Last updated:** 7 July 2026
 
 ## Build milestones — tick what's actually done in VS Code
 - [x] Project scaffolded (Astro + Tailwind v4), git initialized, first commit
 - [x] Deployed a preview (GitHub → Netlify) with a placeholder homepage on a live URL
-- [ ] Homepage / vacation type selector built *(placeholder only so far — real 8-card selector + AI search still to build)*
+- [x] Homepage / vacation type selector built *(real homepage: header, hero, AI search box (visual-only), 8 vibe cards, footer)*
 - [ ] Destinations pages (list + detail)
 - [ ] Tour packages pages (if applicable)
 - [ ] About + Contact pages
@@ -31,6 +31,7 @@
 - [ ] Final production deploy
 
 ## Build log (newest first — one line per session)
+- 7 July 2026 — **Real homepage built (vacation-type selector).** Replaced the placeholder with the actual Voia homepage: minimal header (wordmark), hero ("Travel the way you feel." + intro line), the AI custom-search box per the design spec (gradient hairline border, Sparkles icon, example-prompt chips, visual-only — submitting shows a "coming soon" note, no backend/API), and the 8 vibe-category cards (no-photo fallback variant, rotating coral/teal/amber/sand tints, linking to `/vibe/{slug}` — those pages don't exist yet) with inline Lucide SVG icons. Accessibility pass done (one h1, visible focus rings, 44px/40px tap targets, `prefers-reduced-motion` respected, decorative icons hidden from screen readers). Checked at mobile (375px) and desktop (1280px) with a headless browser — no console errors, no horizontal overflow.
 - 1 July 2026 — **Project foundation set up and shipped live.** Scaffolded Astro 6 + Tailwind v4, pasted the design-system `@theme` tokens into `src/styles/global.css`, added `BaseLayout.astro` (Bricolage Grotesque + Plus Jakarta Sans, warm-paper background, ink text), built a minimal placeholder homepage, added `CLAUDE.md` + `netlify.toml`. Removed an accidental duplicate Astro project folder that was shadowing the real one. Pushed to GitHub and connected Netlify for auto-deploy — Voia homepage confirmed live at the URL above.
 
 ## Decisions made while building
