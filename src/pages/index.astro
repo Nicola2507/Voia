@@ -1,5 +1,61 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const icons: Record<string, string> = {
+  umbrella:
+    '<path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 4 0"/><path d="M12 2v1"/>',
+  mountain: '<path d="m8 3 4 8 5-5 5 15H2L8 3z"/>',
+  building2:
+    '<path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>',
+  landmark:
+    '<line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
+  camera:
+    '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+  trees:
+    '<path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5"/>',
+  compass:
+    '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+  flower2:
+    '<path d="M12 5a3 3 0 1 1 3 3m-3-3a3 3 0 1 0-3 3m3-3v1M9 8a3 3 0 1 0 3 3M9 8h1m5 0a3 3 0 1 1-3 3m3-3h-1m-2 3v-1"/><path d="M12 22c4.2 0 7-1.667 7-5-4.2 0-7 1.667-7 5Z"/><path d="M12 22c-4.2 0-7-1.667-7-5 4.2 0 7 1.667 7 5Z"/><path d="M12 15v7"/><circle cx="12" cy="8" r="2"/>',
+};
+
+const tints = [
+  { bg: "bg-coral-50", icon: "text-coral-600", title: "text-coral-900", teaser: "text-coral-700" },
+  { bg: "bg-teal-50", icon: "text-teal-600", title: "text-teal-900", teaser: "text-teal-700" },
+  { bg: "bg-amber-50", icon: "text-amber-700", title: "text-ink", teaser: "text-amber-800" },
+  { bg: "bg-sand-100", icon: "text-sand-700", title: "text-ink", teaser: "text-sand-700" },
+];
+
+const vibes = [
+  { slug: "beach", name: "Beach", icon: "umbrella", teaser: "Sand, sea, and slow days." },
+  { slug: "mountain", name: "Mountain", icon: "mountain", teaser: "Peaks, trails, and fresh air." },
+  { slug: "city-break", name: "City Break", icon: "building2", teaser: "Cafés, streets, and good chaos." },
+  {
+    slug: "historical-monuments",
+    name: "Historical Monuments",
+    icon: "landmark",
+    teaser: "Castles, ruins, and old stories.",
+  },
+  {
+    slug: "tourist-attractions",
+    name: "Tourist Attractions",
+    icon: "camera",
+    teaser: "The big sights, worth the trip.",
+  },
+  {
+    slug: "nature-landscapes",
+    name: "Nature & Landscapes",
+    icon: "trees",
+    teaser: "Forests, deltas, and big views.",
+  },
+  { slug: "adventure", name: "Adventure", icon: "compass", teaser: "A little adrenaline, a lot of yes." },
+  {
+    slug: "relaxation-wellness",
+    name: "Relaxation & Wellness",
+    icon: "flower2",
+    teaser: "Spa days and deep exhales.",
+  },
+];
 ---
 <BaseLayout title="Voia — Travel the way you feel">
   <div class="flex min-h-screen flex-col">
@@ -85,6 +141,47 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             Coming soon — the smart search is on its way.
           </p>
         </form>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pb-16 pt-2 sm:px-8">
+        <h2 class="mb-5 font-display text-2xl font-semibold tracking-tight text-ink">Pick a vibe</h2>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {
+            vibes.map((vibe, i) => {
+              const tint = tints[i % tints.length];
+              return (
+                <a
+                  href={`/vibe/${vibe.slug}`}
+                  class={`group flex aspect-[4/5] flex-col justify-between rounded-2xl ${tint.bg} p-4 shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
+                >
+                  <span
+                    class={`grid h-10 w-10 place-items-center rounded-full bg-white ${tint.icon}`}
+                    aria-hidden="true"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={icons[vibe.icon]}
+                    />
+                  </span>
+                  <div>
+                    <h3 class={`font-display text-xl font-semibold tracking-tight ${tint.title}`}>
+                      {vibe.name}
+                    </h3>
+                    <p class={`text-sm ${tint.teaser}`}>{vibe.teaser}</p>
+                  </div>
+                </a>
+              );
+            })
+          }
+        </div>
       </section>
     </main>
   </div>
