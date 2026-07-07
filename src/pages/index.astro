@@ -21,6 +21,90 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           Tell us the kind of trip you're dreaming of — we'll find the place.
         </p>
       </section>
+
+      <section class="mx-auto max-w-2xl px-6 pb-10 sm:px-8">
+        <form id="ai-search-form" novalidate>
+          <label for="ai-search-input" class="sr-only">Describe your dream trip</label>
+          <div
+            class="rounded-[28px] bg-linear-to-r from-teal-500 to-coral-500 p-[1.5px] shadow-md focus-within:ring-2 focus-within:ring-coral-500 focus-within:ring-offset-2"
+          >
+            <div class="flex items-center gap-2 rounded-[26px] bg-white p-2 pl-4">
+              <span aria-hidden="true" class="shrink-0 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+              </span>
+              <input
+                id="ai-search-input"
+                name="q"
+                type="text"
+                autocomplete="off"
+                class="min-h-11 w-full min-w-0 bg-transparent text-base text-ink placeholder:text-sand-600 focus:outline-none"
+                placeholder="Warm in winter · somewhere like Santorini · mountains and quiet…"
+              />
+              <button
+                type="submit"
+                class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-coral-600 px-4 font-semibold text-white transition-colors hover:bg-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 sm:px-5"
+              >
+                <span aria-hidden="true" class="sm:hidden">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </span>
+                <span class="hidden sm:inline">Find my trip</span>
+                <span class="sr-only sm:hidden">Find my trip</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-fill="Warm in winter"
+              class="min-h-10 rounded-full bg-sand-100 px-4 text-sm text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+            >
+              Warm in winter
+            </button>
+            <button
+              type="button"
+              data-fill="Somewhere like Santorini"
+              class="min-h-10 rounded-full bg-sand-100 px-4 text-sm text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+            >
+              Somewhere like Santorini
+            </button>
+            <button
+              type="button"
+              data-fill="Mountains &amp; quiet"
+              class="min-h-10 rounded-full bg-sand-100 px-4 text-sm text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+            >
+              Mountains &amp; quiet
+            </button>
+          </div>
+
+          <p
+            id="ai-search-note"
+            role="status"
+            class="mt-3 hidden text-sm font-medium text-teal-700"
+          >
+            Coming soon — the smart search is on its way.
+          </p>
+        </form>
+      </section>
     </main>
   </div>
+
+  <script>
+    const form = document.getElementById("ai-search-form") as HTMLFormElement | null;
+    const input = document.getElementById("ai-search-input") as HTMLInputElement | null;
+    const note = document.getElementById("ai-search-note");
+
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      note?.classList.remove("hidden");
+    });
+
+    form?.querySelectorAll<HTMLButtonElement>("[data-fill]").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        if (!input) return;
+        input.value = chip.dataset.fill ?? "";
+        input.focus();
+      });
+    });
+  </script>
 </BaseLayout>
