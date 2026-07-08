@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sectionHeading = "font-display text-xl font-semibold tracking-tight text-ink";
+---
+<BaseLayout
+  title="Privacy Notice — Voia"
+  description="How Voia collects, uses, and protects the details you share through our enquiry form."
+>
+  <main class="flex-1">
+    <section class="mx-auto max-w-2xl px-6 pt-8 sm:px-8">
+      <h1 class="font-display text-3xl font-bold tracking-tight text-ink md:text-4xl">Privacy Notice</h1>
+      <p class="mt-2 max-w-prose text-lg text-sand-700">
+        A plain-language explanation of what we collect through our enquiry form, why, and how to
+        ask us to change or delete it.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-2xl space-y-8 px-6 py-8 sm:px-8">
+      <div class="rounded-2xl bg-amber-50 p-4 text-sm text-amber-800">
+        <strong>TODO:</strong> real contact email + retention period need to be filled in before
+        this site goes live — see the placeholders below.
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>What we collect</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          When you submit our enquiry form, we collect your name, your email address, and any
+          trip details or message you choose to share — for example the trip or destination
+          you're asking about, travel dates, traveller numbers, or a note to us.
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>Why we collect it</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          Only to reply to your enquiry and help you plan your trip. We don't use it for anything
+          else.
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>Our lawful basis</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          Your consent — given when you tick the consent checkbox on the enquiry form before
+          submitting it.
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>Who can see it</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          Only Voia's admin, via our secure backend. The website itself can only submit new
+          enquiries — it has no way to read them back. We don't sell your data, and we don't run
+          advertising trackers on this form.
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>How long we keep it</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          <em>TODO: retention period to be confirmed.</em> We'll keep your enquiry only for as
+          long as we need it to reply to you and follow up, and no longer than that.
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>Your rights</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          You can ask us what we hold about you, or ask us to correct or delete it, at any time —
+          just email us (see below).
+        </p>
+      </div>
+
+      <div>
+        <h2 class={sectionHeading}>Contact us</h2>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          <em>TODO: replace with a real contact address.</em> For now, reach us at{" "}
+          <a
+            href="mailto:hello@voia.example"
+            class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+          >
+            hello@voia.example
+          </a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
+    <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
+    <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
+    <p class="mt-1 text-xs text-sand-600">A university project.</p>
+  </footer>
+</BaseLayout>
