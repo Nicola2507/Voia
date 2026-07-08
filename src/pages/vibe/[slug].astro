@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DestinationCard from "../../components/DestinationCard.astro";
+import PackageCard from "../../components/PackageCard.astro";
+import VibeIcon from "../../components/VibeIcon.astro";
+import { getCollection } from "astro:content";
+import { VIBE_SLUGS, VIBES } from "../../data/vibes";
+
+export async function getStaticPaths() {
+  return VIBE_SLUGS.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const vibe = VIBES.find((v) => v.slug === slug)!;
+
+const allDestinations = await getCollection("destinations");
+const allPackages = await getCollection("packages");
+
+const destinations = allDestinations.filter((d) => d.data.vibes.includes(vibe.slug));
+const packages = allPackages.filter((p) => p.data.vibes.includes(vibe.slug));
+---
+<BaseLayout
+  title={`${vibe.name} — Voia`}
+  description={vibe.intro}
+>
+  <div class="flex min-h-screen flex-col">
+    <header class="mx-auto flex w-full max-w-5xl items-center px-6 py-4 sm:px-8">
+      <a
+        href="/"
+        class="inline-flex min-h-11 items-center rounded-md font-display text-2xl font-bold tracking-tight text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+      >
+        Voia
+      </a>
+    </header>
+
+    <main class="flex-1">
+      <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
+        <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
+          <li>
+            <a
+              href="/"
+              class="rounded hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+            >
+              Home
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="font-medium text-sand-700">{vibe.name}</li>
+        </ol>
+      </nav>
+
+      <section class="mx-auto max-w-5xl px-6 pb-6 pt-4 sm:px-8">
+        <div class="flex items-center gap-3">
+          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-teal-50 text-teal-600">
+            <VibeIcon slug={vibe.slug} class="h-6 w-6" />
+          </span>
+          <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">{vibe.name}</h1>
+        </div>
+        <p class="mt-3 max-w-prose text-lg leading-relaxed text-sand-700">{vibe.intro}</p>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pb-4 sm:px-8">
+        <h2 class="mb-4 font-display text-2xl font-semibold tracking-tight text-ink">
+          Destinations
+        </h2>
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {destinations.map((destination, i) => <DestinationCard destination={destination} index={i} />)}
+        </div>
+      </section>
+
+      {
+        packages.length > 0 && (
+          <section class="mx-auto max-w-5xl px-6 py-10 sm:px-8">
+            <h2 class="mb-4 font-display text-2xl font-semibold tracking-tight text-ink">
+              Trips for this vibe
+            </h2>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {packages.map((pkg, i) => <PackageCard pkg={pkg} index={i} />)}
+            </div>
+          </section>
+        )
+      }
+
+      <section class="mx-auto max-w-5xl px-6 py-10 sm:px-8">
+        <div class="flex flex-wrap gap-2">
+          <a
+            href="/destinations"
+            class="inline-flex min-h-10 items-center rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+          >
+            See all destinations
+          </a>
+          <a
+            href="/packages"
+            class="inline-flex min-h-10 items-center rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+          >
+            See all trips
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
+      <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
+      <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
+      <p class="mt-1 text-xs text-sand-600">A university project.</p>
+    </footer>
+  </div>
+</BaseLayout>
