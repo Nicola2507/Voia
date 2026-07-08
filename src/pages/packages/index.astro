@@ -1,0 +1,125 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PackageCard from "../../components/PackageCard.astro";
+import VibeIcon from "../../components/VibeIcon.astro";
+import { getCollection } from "astro:content";
+import { VIBES } from "../../data/vibes";
+
+const packages = await getCollection("packages");
+---
+<BaseLayout
+  title="Trips — Voia"
+  description="Voia's curated tour packages — from a five-day Transylvania classic to a Bali winter escape. Prices shown are indicative placeholders."
+>
+  <div class="flex min-h-screen flex-col">
+    <header class="mx-auto flex w-full max-w-5xl items-center px-6 py-4 sm:px-8">
+      <a
+        href="/"
+        class="inline-flex min-h-11 items-center rounded-md font-display text-2xl font-bold tracking-tight text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+      >
+        Voia
+      </a>
+    </header>
+
+    <main class="flex-1">
+      <section class="mx-auto max-w-5xl px-6 pb-6 pt-4 sm:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">Trips</h1>
+        <p class="mt-3 max-w-prose text-lg leading-relaxed text-sand-700">
+          Six curated trips, budget to splurge. Filter by vibe, or just start browsing.
+        </p>
+        <p class="mt-2 max-w-prose text-sm text-sand-600">
+          Prices shown throughout are indicative placeholders, not real quotes — see each trip for details.
+        </p>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pb-4 sm:px-8">
+        <div role="group" aria-label="Filter trips by vibe" class="flex flex-wrap gap-2">
+          <a
+            href="/packages"
+            data-vibe="all"
+            role="button"
+            aria-pressed="true"
+            class="chip inline-flex min-h-10 items-center rounded-full bg-coral-600 px-4 text-sm font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+          >
+            All
+          </a>
+          {
+            VIBES.map((vibe) => (
+              <a
+                href={`/vibe/${vibe.slug}`}
+                data-vibe={vibe.slug}
+                role="button"
+                aria-pressed="false"
+                class="chip inline-flex min-h-10 items-center gap-1.5 rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+              >
+                <VibeIcon slug={vibe.slug} class="h-4 w-4" />
+                {vibe.name}
+              </a>
+            ))
+          }
+        </div>
+        <p id="vibe-filter-status" role="status" aria-live="polite" class="sr-only" />
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pb-16 pt-4 sm:px-8">
+        <div id="packages-grid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {packages.map((pkg, i) => <PackageCard pkg={pkg} index={i} />)}
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
+      <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
+      <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
+      <p class="mt-1 text-xs text-sand-600">A university project.</p>
+    </footer>
+  </div>
+
+  <script>
+    const chips = document.querySelectorAll<HTMLAnchorElement>(".chip");
+    const cards = document.querySelectorAll<HTMLAnchorElement>("#packages-grid > a");
+    const status = document.getElementById("vibe-filter-status");
+
+    function applyFilter(slug: string) {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const vibes = (card.dataset.vibes ?? "").split(" ");
+        const show = slug === "all" || vibes.includes(slug);
+        card.hidden = !show;
+        if (show) visibleCount++;
+      });
+
+      chips.forEach((chip) => {
+        const isActive = chip.dataset.vibe === slug;
+        chip.setAttribute("aria-pressed", String(isActive));
+        chip.classList.toggle("bg-coral-600", isActive);
+        chip.classList.toggle("text-white", isActive);
+        chip.classList.toggle("bg-sand-100", !isActive);
+        chip.classList.toggle("text-sand-700", !isActive);
+        chip.classList.toggle("hover:bg-sand-200", !isActive);
+      });
+
+      if (status) {
+        status.textContent = `Showing ${visibleCount} trip${visibleCount === 1 ? "" : "s"}`;
+      }
+    }
+
+    function slugFromHash() {
+      const match = window.location.hash.match(/^#vibe=(.+)$/);
+      return match ? match[1] : "all";
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", (event) => {
+        event.preventDefault();
+        const slug = chip.dataset.vibe ?? "all";
+        window.location.hash = slug === "all" ? "" : `vibe=${slug}`;
+        applyFilter(slug);
+      });
+    });
+
+    window.addEventListener("hashchange", () => applyFilter(slugFromHash()));
+
+    applyFilter(slugFromHash());
+  </script>
+</BaseLayout>
