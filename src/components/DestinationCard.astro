@@ -1,0 +1,73 @@
+---
+import type { CollectionEntry } from "astro:content";
+import VibePill from "./VibePill.astro";
+
+interface Props {
+  destination: CollectionEntry<"destinations">;
+  index?: number;
+}
+
+const { destination, index = 0 } = Astro.props;
+const { title, country, countryFlag, tagline, vibes, heroImage, heroImageAlt, package: pkg } =
+  destination.data;
+
+const tints = [
+  { bg: "bg-coral-50", title: "text-coral-900", body: "text-coral-700" },
+  { bg: "bg-teal-50", title: "text-teal-900", body: "text-teal-700" },
+  { bg: "bg-amber-50", title: "text-ink", body: "text-amber-800" },
+  { bg: "bg-sand-100", title: "text-ink", body: "text-sand-700" },
+];
+const tint = tints[index % tints.length];
+const shownVibes = vibes.slice(0, 2);
+---
+<a
+  href={`/destinations/${destination.id}`}
+  aria-label={`${title}, ${country} — view destination`}
+  data-vibes={vibes.join(" ")}
+  class={`group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-2xl ${heroImage ? "" : tint.bg} p-4 shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
+>
+  {
+    heroImage && (
+      <>
+        <img
+          src={heroImage}
+          alt={heroImageAlt ?? ""}
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent" />
+      </>
+    )
+  }
+  <div class="relative flex items-start justify-between gap-2">
+    <span class="text-2xl" aria-hidden="true">{countryFlag}</span>
+    {
+      pkg && (
+        <span
+          class={`rounded-full px-2.5 py-1 text-xs font-medium ${
+            heroImage ? "bg-white/20 text-white backdrop-blur-sm" : "bg-white text-teal-700"
+          }`}
+        >
+          Trip available
+        </span>
+      )
+    }
+  </div>
+  <div class="relative">
+    <h3
+      class={`font-display text-xl font-semibold tracking-tight ${
+        heroImage ? "text-white" : tint.title
+      }`}
+    >
+      {title}
+    </h3>
+    <p class={`text-sm ${heroImage ? "text-white/85" : tint.body}`}>{country}</p>
+    <p class={`mt-1 text-sm ${heroImage ? "text-white/90" : tint.body}`}>{tagline}</p>
+    <div class="mt-2 flex flex-wrap gap-1.5">
+      {
+        shownVibes.map((v) => (
+          <VibePill slug={v} class={heroImage ? "bg-white/20 text-white" : ""} />
+        ))
+      }
+    </div>
+  </div>
+</a>

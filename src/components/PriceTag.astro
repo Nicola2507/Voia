@@ -1,0 +1,36 @@
+---
+interface Props {
+  priceFrom: number;
+  priceTo: number;
+  currency: string;
+  priceBasis: "land-only" | "flights-hotel";
+  priceIsPlaceholder: boolean;
+  class?: string;
+}
+
+const {
+  priceFrom,
+  priceTo,
+  currency,
+  priceBasis,
+  priceIsPlaceholder,
+  class: className,
+} = Astro.props;
+
+const symbols: Record<string, string> = { EUR: "€", RON: "lei ", USD: "$" };
+const symbol = symbols[currency] ?? `${currency} `;
+const basisLabel = priceBasis === "land-only" ? "land only" : "flights + hotel";
+---
+<div class:list={["flex flex-col gap-1.5", className]}>
+  <p class="font-display text-lg font-semibold text-ink">
+    from {symbol}{priceFrom}–{symbol}{priceTo}
+    <span class="font-sans text-sm font-normal text-sand-600">({basisLabel})</span>
+  </p>
+  {
+    priceIsPlaceholder && (
+      <p class="inline-flex w-fit items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-800">
+        Indicative — not a real quote
+      </p>
+    )
+  }
+</div>
