@@ -37,16 +37,6 @@ const gradient =
   region === "romania" ? "from-teal-500 to-coral-500" : "from-coral-500 to-amber-400";
 ---
 <BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
-  <div class="flex min-h-screen flex-col">
-    <header class="mx-auto flex w-full max-w-5xl items-center px-6 py-4 sm:px-8">
-      <a
-        href="/"
-        class="inline-flex min-h-11 items-center rounded-md font-display text-2xl font-bold tracking-tight text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
-      >
-        Voia
-      </a>
-    </header>
-
     <main class="flex-1">
       <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
         <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
@@ -214,5 +204,4 @@ const gradient =
       <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
       <p class="mt-1 text-xs text-sand-600">A university project.</p>
     </footer>
-  </div>
 </BaseLayout>

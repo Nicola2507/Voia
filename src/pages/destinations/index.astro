@@ -11,16 +11,6 @@ const destinations = await getCollection("destinations");
   title="Destinations — Voia"
   description="Explore Voia's destinations — from Romania's Carpathians to Bali's rice terraces. Filter by vibe to find your place."
 >
-  <div class="flex min-h-screen flex-col">
-    <header class="mx-auto flex w-full max-w-5xl items-center px-6 py-4 sm:px-8">
-      <a
-        href="/"
-        class="inline-flex min-h-11 items-center rounded-md font-display text-2xl font-bold tracking-tight text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
-      >
-        Voia
-      </a>
-    </header>
-
     <main class="flex-1">
       <section class="mx-auto max-w-5xl px-6 pb-6 pt-4 sm:px-8">
         <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">Destinations</h1>
@@ -74,7 +64,6 @@ const destinations = await getCollection("destinations");
       <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
       <p class="mt-1 text-xs text-sand-600">A university project.</p>
     </footer>
-  </div>
 
   <script>
     const chips = document.querySelectorAll<HTMLAnchorElement>(".chip");
