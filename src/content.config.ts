@@ -54,6 +54,7 @@ const packages = defineCollection({
       .default([]),
     included: z.array(z.string()).default([]),
     excluded: z.array(z.string()).default([]),
+    detailsAreIllustrative: z.boolean().default(true),
     featured: z.boolean().default(false),
     heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
