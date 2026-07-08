@@ -97,9 +97,10 @@ romantic, so it's a favourite for couples and milestone trips.
 | `tagline` | string | ✅ | One line, Voia's voice. Card + SEO fallback. |
 | `greatFor` | array of strings | ✅ | Audience ("Students & first-timers"). |
 | `highlights` | array of strings | ⬜ | **Real** places/experiences — *not* invented day-by-day detail. |
-| `itinerary` | array of `{ day, title, detail }` | ⬜ | ⚠️ **GAP — leave empty.** Page shows a "coming soon / to be confirmed" note. |
-| `included` | array of strings | ⬜ | ⚠️ **GAP — leave empty.** |
-| `excluded` | array of strings | ⬜ | ⚠️ **GAP — leave empty.** |
+| `itinerary` | array of `{ day, title, detail }` | ⬜ | Populated with an **illustrative sample** day-by-day (see §7). Not supplier-confirmed. |
+| `included` | array of strings | ⬜ | Populated with **typical, illustrative** inclusions (see §7). |
+| `excluded` | array of strings | ⬜ | Populated with **typical, illustrative** exclusions (see §7). |
+| `detailsAreIllustrative` | boolean (default `true`) | ⬜ | Drives the "sample itinerary — illustrative, not a final quote" flag on the trip page. Flip to `false` per trip when real operator detail replaces the sample. |
 | `featured` | boolean (default `false`) | ⬜ | |
 | `heroImage` / `heroImageAlt` | string | ⬜ | Omit for now — gradient placeholder. |
 | `seoDescription` | string | ⬜ | Overrides `tagline` for meta if needed. |
@@ -124,9 +125,24 @@ highlights:
   - "Whitewashed villages and blue domes"
   - "Santorini's black- and red-sand beaches"
   - "Long, unhurried Greek evenings"
-itinerary: []      # TODO — day-by-day to be confirmed
-included: []       # TODO
-excluded: []       # TODO
+detailsAreIllustrative: true   # itinerary/included/excluded below are an illustrative sample
+itinerary:
+  - { day: 1, title: "Arrive in Santorini", detail: "Transfer to your hotel and settle in with your first caldera view." }
+  - { day: 2, title: "Fira & the caldera", detail: "Explore the capital, Fira, and walk the caldera path, with cafés and views along the way." }
+  - { day: 3, title: "Oia & the famous sunset", detail: "Wander Oia's whitewashed lanes and blue domes, and stay for the sunset over the volcano." }
+  - { day: 4, title: "Beach day", detail: "A day at Santorini's distinctive black- and red-sand beaches." }
+  - { day: 5, title: "Akrotiri & wine country", detail: "Visit the ancient site of Akrotiri and the island's vineyards." }
+  - { day: 6, title: "Departure", detail: "A last Greek morning before your flight home." }
+included:
+  - "Return flights"
+  - "Airport transfers"
+  - "Hotel accommodation (5 nights)"
+  - "Daily breakfast"
+excluded:
+  - "Lunches and dinners"
+  - "Travel insurance"
+  - "Optional boat trips and excursions"
+  - "Personal expenses"
 featured: false
 ---
 
@@ -145,7 +161,7 @@ just take in the view. The splurge that earns its keep.
 - `/destinations/{slug}` — destination detail (why-go, highlights, good-to-know, best season, + its bookable trip if any).
 - `/vibe/{slug}` — **the pages the homepage already links to.** One per vibe; lists the destinations *and* trips tagged with that vibe.
 - `/packages` — index of all 6 trips.
-- `/packages/{slug}` — trip detail (price with placeholder flag, highlights, "based in…" links, itinerary/inclusions placeholders).
+- `/packages/{slug}` — trip detail (price with placeholder flag, highlights, "based in…" links, illustrative itinerary + inclusions/exclusions).
 
 ---
 
@@ -314,7 +330,9 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
 
 ## 7 · Tour packages — full catalog (6)
 
-> ⚠️ **All prices are indicative placeholders for the project — not real quotes.** Per person, double occupancy, EUR. `priceIsPlaceholder: true` on every entry so the UI shows an "indicative" flag. Replace with real supplier pricing before anything is presented as fact. `itinerary`, `included`, and `excluded` are intentionally empty — see §8.
+> ⚠️ **All prices are indicative placeholders for the project — not real quotes.** Per person, double occupancy, EUR. `priceIsPlaceholder: true` on every entry so the UI shows an "indicative" flag. Replace with real supplier pricing before anything is presented as fact.
+>
+> ⚠️ **The `itinerary`, `included`, and `excluded` below are illustrative samples** — a realistic feel for each trip, drafted from each place's well-known sights, **not** a supplier-confirmed plan. Every package carries `detailsAreIllustrative: true`, so the trip page shows a "sample itinerary — illustrative" flag. Replace with real operator detail (exact hotels, transfers, timings) before presenting as fact — see §8.
 
 ### 1 · Transylvania in 5 Days  →  `transylvania-5-days.md`
 - **destinations:** `brasov-carpathians`, `sibiu-transfagarasan`
@@ -328,6 +346,14 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - Bran "Dracula's" Castle
   - Sibiu's Saxon squares
   - Carpathian scenery between the stops
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Arrive in Brașov: Settle in and take an evening stroll through the medieval old town and Council Square (Piața Sfatului).
+  - Day 2 — Brașov old town: The Gothic Black Church, the Tâmpa cable car for rooftop views, and the narrow lanes of the centre.
+  - Day 3 — Bran & Râșnov: A day out to Bran "Dracula's" Castle and the hilltop Râșnov Fortress, with Carpathian scenery along the way.
+  - Day 4 — On to Sibiu: Travel west to Sibiu; an afternoon in the Grand and Small Squares and across the Bridge of Lies.
+  - Day 5 — Sibiu & departure: A last wander beneath the "eyes of Sibiu" rooftops before heading home.
+- **included (illustrative):** Hotel accommodation (4 nights) · Daily breakfast · Guided sightseeing as per the itinerary · Entrance to Bran Castle · Local transport between Brașov and Sibiu
+- **excluded (illustrative):** Flights (land-only trip) · Lunches and dinners · Travel insurance · Personal expenses and optional activities · Tips and gratuities
 - **About this trip (body):**
   The greatest-hits loop through Transylvania: fairy-tale Brașov, the legend of Bran Castle, and the storybook streets of Sibiu, threaded together with Carpathian views. It's designed as an easy, budget-friendly first taste of Romania — big on atmosphere, light on logistics. A five-day classic for students, first-timers, and anyone who wants the highlights without overthinking it.
 
@@ -342,6 +368,13 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - Birdwatching, including pelicans
   - Quiet nights in a delta fishing village
   - Sunrises over the water
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Into the Delta: Reach Tulcea, the gateway, and transfer by boat to your delta base; settle into the quiet.
+  - Day 2 — Boat safari & birds: A full guided safari through the reed channels and lily-covered lakes, watching for pelicans and herons.
+  - Day 3 — Villages & backwaters: Explore sleepy fishing villages reachable only by water, with plenty of time to slow down.
+  - Day 4 — Sunrise & departure: An early, still morning on the water before returning to Tulcea for departure.
+- **included (illustrative):** Accommodation in the delta (3 nights) · Daily breakfast · Boat transfers and guided boat safaris · Local guide
+- **excluded (illustrative):** Flights (land-only trip) · Lunches and dinners · Travel insurance · Personal expenses and optional activities · Tips and gratuities
 - **About this trip (body):**
   A deliberately unhurried few days in the Danube Delta — boat trips through the reeds, long stretches of birdsong and open water, and the kind of quiet that resets you. It's built for couples and nature lovers who want to swap notifications for herons and lily pads. Come to slow all the way down.
 
@@ -356,6 +389,14 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - A wander through Constanța's seafront old town
   - Lively evenings on the resort terraces
   - The most budget-friendly trip in the catalog
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Arrive at the coast: Check in near the Mamaia strip and settle in with a first evening by the sea.
+  - Day 2 — Beach day at Mamaia: A full day on the long sandy strip — sea, sand, and terraces.
+  - Day 3 — Constanța & Tomis: The seafront old town, the landmark Casino, and traces of ancient Tomis.
+  - Day 4 — Free beach day: Another relaxed day by the sea, at your own pace.
+  - Day 5 — Departure: A final morning by the water before heading home.
+- **included (illustrative):** Hotel accommodation near the beach (4 nights) · Daily breakfast · A guided Constanța old-town walk
+- **excluded (illustrative):** Flights (land-only trip) · Lunches and dinners · Travel insurance · Sunbed and umbrella rentals · Personal expenses
 - **About this trip (body):**
   Straightforward seaside fun on Romania's Black Sea coast: sandy days at Mamaia, a bit of history and a stroll in Constanța, and easygoing summer evenings. It's the friendly, affordable pick for families and friend groups who just want sun and sea without the long-haul price tag. Pack the swimsuit and go.
 
@@ -371,6 +412,15 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - Whitewashed villages and blue domes
   - Santorini's black- and red-sand beaches
   - Long, unhurried Greek evenings
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Arrive in Santorini: Transfer to your hotel and settle in with your first caldera view.
+  - Day 2 — Fira & the caldera: Explore the capital, Fira, and walk the caldera path, with cafés and views along the way.
+  - Day 3 — Oia & the famous sunset: Wander Oia's whitewashed lanes and blue domes, and stay for the sunset over the volcano.
+  - Day 4 — Beach day: A day at Santorini's distinctive black- and red-sand beaches.
+  - Day 5 — Akrotiri & wine country: Visit the ancient site of Akrotiri and the island's vineyards.
+  - Day 6 — Departure: A last Greek morning before your flight home.
+- **included (illustrative):** Return flights · Airport transfers · Hotel accommodation (5 nights) · Daily breakfast
+- **excluded (illustrative):** Lunches and dinners · Travel insurance · Optional boat trips and excursions · Personal expenses
 - **About this trip (body):**
   A romantic six days on the Aegean's most photogenic island — cliffside villages, endless sea views, and that famous sunset every evening. It's shaped for couples and milestone trips: slow mornings, good food, and time to just take in the view. The splurge that earns its keep.
 
@@ -385,6 +435,13 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - Vatican City and St Peter's
   - The Pantheon, Trevi, and Trastevere
   - Food breaks between the landmarks
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Arrive in Rome: Transfer to your hotel, then an evening stroll and gelato.
+  - Day 2 — Ancient Rome: The Colosseum, the Roman Forum, and Palatine Hill.
+  - Day 3 — Vatican City: St Peter's Basilica, the Vatican Museums, and the Sistine Chapel.
+  - Day 4 — Classic Rome & departure: The Pantheon, the Trevi Fountain, and a last wander through Trastevere before your flight.
+- **included (illustrative):** Return flights · Airport transfers · Hotel accommodation (3 nights) · Daily breakfast · Entrance to the Colosseum and Vatican Museums
+- **excluded (illustrative):** Lunches and dinners · Travel insurance · Optional guided tours · Personal expenses
 - **About this trip (body):**
   A four-day dive into the Eternal City — the big-hitters of ancient and Renaissance Rome, with plenty of pasta and piazza time in between. It's made for culture seekers and city lovers who want the icons and the atmosphere in one tight, walkable trip. History, art, and dinner, all within reach.
 
@@ -400,6 +457,17 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
   - Ubud's rice terraces and wellness scene
   - A sunrise volcano hike
   - Temples, waterfalls, and long, warm days
+- **itinerary — illustrative sample** (`detailsAreIllustrative: true`):
+  - Day 1 — Arrive in Bali: Transfer to your first base and ease into island time.
+  - Day 2 — Ubud & rice terraces: Explore Ubud and the Tegallalang rice terraces, with a first taste of the wellness scene.
+  - Day 3 — Temples & waterfalls: Inland temples and a jungle waterfall or two.
+  - Day 4 — Mount Batur sunrise: An early guided sunrise hike up volcanic Mount Batur.
+  - Day 5 — To the coast: Move to a beach base — surf towns and the clifftop temple at Uluwatu.
+  - Day 6 — Beach & Tanah Lot: A relaxed beach day and the sea temple of Tanah Lot at sunset.
+  - Day 7 — Free day: Yoga, spa, surf, or simply the pool — your choice.
+  - Day 8 — Departure: A final warm morning before the long flight home.
+- **included (illustrative):** Return flights · Airport transfers · Hotel accommodation (7 nights, split between Ubud and the coast) · Daily breakfast · The guided Mount Batur sunrise hike
+- **excluded (illustrative):** Lunches and dinners · Travel insurance · Optional excursions and spa treatments · Personal expenses · Visa fees if applicable
 - **About this trip (body):**
   The full "warm in winter" reset — eight days to trade a grey Romanian winter for Bali's beaches, rice terraces, and slow, sunlit mornings. It balances a bit of adventure with a lot of wellness, so you can hike a volcano one day and do nothing by the pool the next. The long-haul splurge for when you really need the sun.
 
@@ -410,8 +478,7 @@ These are the fixed categories. **The `slug` column must exactly match the `/vib
 Per the project rule, these are **not yet real** and must be sourced before publishing. The UI is built to flag them, not hide them.
 
 - **All package prices** — indicative ranges only (`priceIsPlaceholder: true`). Replace with real supplier quotes.
-- **Itineraries** (`itinerary`) — no day-by-day yet. Pages show a "coming soon / to be confirmed" note.
-- **Inclusions/exclusions** (`included` / `excluded`) — empty; flagged as "to be confirmed".
+- **Itineraries & inclusions** (`itinerary` / `included` / `excluded`) — now populated as **illustrative samples** (flagged in the UI via `detailsAreIllustrative: true`), so no trip page is empty. They are *not* supplier-confirmed. Replace with real operator detail — exact hotels, transfers, day-by-day timings — before presenting as fact.
 - **Operational details** — exact durations, hotel names, opening hours, transport. Not stated anywhere in copy.
 - **Photos & licensing** — every destination/package needs properly licensed imagery. Until then, ship the **gradient / no-photo** placeholders (per `02_design-system` §7.1).
 - **Currency** — EUR for now. Decide EUR vs RON (or both) for display, especially for Romanian trips. `currency` field makes this a small change.
