@@ -36,6 +36,8 @@ const {
 } = entry.data;
 
 const basedIn = await Promise.all(destinationRefs.map((ref) => getEntry(ref)));
+
+const enquiryHref = `/contact?trip=${encodeURIComponent(entry.id)}&title=${encodeURIComponent(title)}`;
 ---
 <BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
     <main class="flex-1">
@@ -264,7 +266,7 @@ const basedIn = await Promise.all(destinationRefs.map((ref) => getEntry(ref)));
 
       <section class="mx-auto max-w-5xl px-6 py-10 sm:px-8">
         <a
-          href="/contact"
+          href={enquiryHref}
           class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-coral-600 px-5 font-semibold text-white transition-colors hover:bg-coral-700 active:bg-coral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
         >
           Enquire about this trip

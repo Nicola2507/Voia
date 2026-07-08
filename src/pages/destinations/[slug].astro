@@ -35,6 +35,11 @@ const linkedPackage = packageRef ? await getEntry(packageRef) : undefined;
 
 const gradient =
   region === "romania" ? "from-teal-500 to-coral-500" : "from-coral-500 to-amber-400";
+
+const destinationEnquiryHref = `/contact?trip=${encodeURIComponent(entry.id)}&title=${encodeURIComponent(title)}`;
+const packageEnquiryHref = linkedPackage
+  ? `/contact?trip=${encodeURIComponent(linkedPackage.id)}&title=${encodeURIComponent(linkedPackage.data.title)}`
+  : undefined;
 ---
 <BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
     <main class="flex-1">
@@ -164,12 +169,18 @@ const gradient =
           linkedPackage ? (
             <div class="mt-4 max-w-sm">
               <PackageCard pkg={linkedPackage} />
+              <a
+                href={packageEnquiryHref}
+                class="mt-3 inline-flex min-h-10 items-center font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+              >
+                Enquire about this trip
+              </a>
             </div>
           ) : (
             <p class="mt-3 max-w-prose text-sand-700">
               Not yet available as a packaged trip —{" "}
               <a
-                href="/contact"
+                href={destinationEnquiryHref}
                 class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
               >
                 enquire
