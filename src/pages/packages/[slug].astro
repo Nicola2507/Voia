@@ -1,0 +1,222 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import VibePill from "../../components/VibePill.astro";
+import PriceTag from "../../components/PriceTag.astro";
+import { getCollection, getEntry, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const packages = await getCollection("packages");
+  return packages.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const {
+  title,
+  destinations: destinationRefs,
+  vibes,
+  durationDays,
+  priceFrom,
+  priceTo,
+  currency,
+  priceBasis,
+  priceIsPlaceholder,
+  priceNote,
+  tagline,
+  greatFor,
+  highlights,
+  itinerary,
+  included,
+  excluded,
+  seoDescription,
+} = entry.data;
+
+const basedIn = await Promise.all(destinationRefs.map((ref) => getEntry(ref)));
+---
+<BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
+  <div class="flex min-h-screen flex-col">
+    <header class="mx-auto flex w-full max-w-5xl items-center px-6 py-4 sm:px-8">
+      <a
+        href="/"
+        class="inline-flex min-h-11 items-center rounded-md font-display text-2xl font-bold tracking-tight text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+      >
+        Voia
+      </a>
+    </header>
+
+    <main class="flex-1">
+      <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
+        <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
+          <li>
+            <a href="/" class="rounded hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">Home</a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <a href="/packages" class="rounded hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">Trips</a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="font-medium text-sand-700">{title}</li>
+        </ol>
+      </nav>
+
+      <section class="mx-auto max-w-5xl px-6 pt-4 sm:px-8">
+        <div class="relative overflow-hidden rounded-2xl bg-linear-to-br from-teal-500 to-coral-500 p-6 shadow-card sm:p-10">
+          <span class="inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+            {durationDays} days
+          </span>
+          <h1 class="mt-3 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
+            {title}
+          </h1>
+          <p class="mt-2 max-w-prose text-lg text-white/90">{tagline}</p>
+          <div class="mt-4 flex flex-wrap gap-1.5">
+            {vibes.map((v) => <VibePill slug={v} class="bg-white/20 text-white" />)}
+          </div>
+          {
+            greatFor.length > 0 && (
+              <p class="mt-3 text-sm text-white/85">Great for: {greatFor.join(", ")}</p>
+            )
+          }
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pt-6 sm:px-8">
+        <div class="rounded-2xl bg-white p-5 shadow-card">
+          <PriceTag
+            priceFrom={priceFrom}
+            priceTo={priceTo}
+            currency={currency}
+            priceBasis={priceBasis}
+            priceIsPlaceholder={priceIsPlaceholder}
+          />
+          <p class="mt-2 text-sm text-sand-600">{priceNote}</p>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pt-8 sm:px-8">
+        <div class="max-w-prose space-y-4 text-base leading-relaxed text-ink">
+          <Content />
+        </div>
+      </section>
+
+      {
+        highlights.length > 0 && (
+          <section class="mx-auto max-w-5xl px-6 pt-8 sm:px-8">
+            <h2 class="font-display text-2xl font-semibold tracking-tight text-ink">Highlights</h2>
+            <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+              {highlights.map((item) => (
+                <li class="flex items-start gap-2 text-sand-700">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="mt-0.5 shrink-0 text-teal-600"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section class="mx-auto max-w-5xl px-6 pt-8 sm:px-8">
+        <h2 class="font-display text-lg font-semibold tracking-tight text-ink">Based in</h2>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {
+            basedIn.map((destination) => (
+              <a
+                href={`/destinations/${destination.id}`}
+                class="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+              >
+                <span aria-hidden="true">{destination.data.countryFlag}</span>
+                {destination.data.title}
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 pt-8 sm:px-8">
+        <h2 class="font-display text-lg font-semibold tracking-tight text-ink">Itinerary</h2>
+        {
+          itinerary.length > 0 ? (
+            <ol class="mt-3 space-y-3">
+              {itinerary.map((day) => (
+                <li class="rounded-xl bg-white p-4 shadow-card">
+                  <p class="text-sm font-semibold text-teal-700">Day {day.day} — {day.title}</p>
+                  <p class="mt-1 text-sm text-sand-700">{day.detail}</p>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div class="mt-3 rounded-2xl bg-info-50 p-5 text-sm text-info-700">
+              Day-by-day itinerary coming soon — to be confirmed.
+            </div>
+          )
+        }
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 py-8 sm:px-8">
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <h2 class="font-display text-lg font-semibold tracking-tight text-ink">What's included</h2>
+            {
+              included.length > 0 ? (
+                <ul class="mt-3 space-y-2 text-sm text-sand-700">
+                  {included.map((item) => <li>{item}</li>)}
+                </ul>
+              ) : (
+                <div class="mt-3 rounded-2xl bg-info-50 p-5 text-sm text-info-700">
+                  Inclusions to be confirmed.
+                </div>
+              )
+            }
+          </div>
+          <div>
+            <h2 class="font-display text-lg font-semibold tracking-tight text-ink">What's excluded</h2>
+            {
+              excluded.length > 0 ? (
+                <ul class="mt-3 space-y-2 text-sm text-sand-700">
+                  {excluded.map((item) => <li>{item}</li>)}
+                </ul>
+              ) : (
+                <div class="mt-3 rounded-2xl bg-info-50 p-5 text-sm text-info-700">
+                  Exclusions to be confirmed.
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-6 py-10 sm:px-8">
+        <a
+          href="/contact"
+          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-coral-600 px-5 font-semibold text-white transition-colors hover:bg-coral-700 active:bg-coral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+        >
+          Enquire about this trip
+        </a>
+        <p class="mt-2 text-sm text-sand-600">No booking yet — this sends us your details so we can help you plan it.</p>
+      </section>
+    </main>
+
+    <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
+      <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
+      <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
+      <p class="mt-1 text-xs text-sand-600">A university project.</p>
+    </footer>
+  </div>
+</BaseLayout>
