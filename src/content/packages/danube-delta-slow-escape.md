@@ -16,9 +16,23 @@ highlights:
   - "Birdwatching, including pelicans"
   - "Quiet nights in a delta fishing village"
   - "Sunrises over the water"
-itinerary: []
-included: []
-excluded: []
+detailsAreIllustrative: true
+itinerary:
+  - { day: 1, title: "Into the Delta", detail: "Reach Tulcea, the gateway, and transfer by boat to your delta base; settle into the quiet." }
+  - { day: 2, title: "Boat safari & birds", detail: "A full guided safari through the reed channels and lily-covered lakes, watching for pelicans and herons." }
+  - { day: 3, title: "Villages & backwaters", detail: "Explore sleepy fishing villages reachable only by water, with plenty of time to slow down." }
+  - { day: 4, title: "Sunrise & departure", detail: "An early, still morning on the water before returning to Tulcea for departure." }
+included:
+  - "Accommodation in the delta (3 nights)"
+  - "Daily breakfast"
+  - "Boat transfers and guided boat safaris"
+  - "Local guide"
+excluded:
+  - "Flights (land-only trip)"
+  - "Lunches and dinners"
+  - "Travel insurance"
+  - "Personal expenses and optional activities"
+  - "Tips and gratuities"
 ---
 
 A deliberately unhurried few days in the Danube Delta — boat trips through

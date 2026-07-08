@@ -16,9 +16,24 @@ highlights:
   - "Whitewashed villages and blue domes"
   - "Santorini's black- and red-sand beaches"
   - "Long, unhurried Greek evenings"
-itinerary: []
-included: []
-excluded: []
+detailsAreIllustrative: true
+itinerary:
+  - { day: 1, title: "Arrive in Santorini", detail: "Transfer to your hotel and settle in with your first caldera view." }
+  - { day: 2, title: "Fira & the caldera", detail: "Explore the capital, Fira, and walk the caldera path, with cafés and views along the way." }
+  - { day: 3, title: "Oia & the famous sunset", detail: "Wander Oia's whitewashed lanes and blue domes, and stay for the sunset over the volcano." }
+  - { day: 4, title: "Beach day", detail: "A day at Santorini's distinctive black- and red-sand beaches." }
+  - { day: 5, title: "Akrotiri & wine country", detail: "Visit the ancient site of Akrotiri and the island's vineyards." }
+  - { day: 6, title: "Departure", detail: "A last Greek morning before your flight home." }
+included:
+  - "Return flights"
+  - "Airport transfers"
+  - "Hotel accommodation (5 nights)"
+  - "Daily breakfast"
+excluded:
+  - "Lunches and dinners"
+  - "Travel insurance"
+  - "Optional boat trips and excursions"
+  - "Personal expenses"
 ---
 
 A romantic six days on the Aegean's most photogenic island — cliffside

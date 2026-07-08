@@ -16,9 +16,25 @@ highlights:
   - "Bran \"Dracula's\" Castle"
   - "Sibiu's Saxon squares"
   - "Carpathian scenery between the stops"
-itinerary: []
-included: []
-excluded: []
+detailsAreIllustrative: true
+itinerary:
+  - { day: 1, title: "Arrive in Brașov", detail: "Settle in and take an evening stroll through the medieval old town and Council Square (Piața Sfatului)." }
+  - { day: 2, title: "Brașov old town", detail: "The Gothic Black Church, the Tâmpa cable car for rooftop views, and the narrow lanes of the centre." }
+  - { day: 3, title: "Bran & Râșnov", detail: "A day out to Bran \"Dracula's\" Castle and the hilltop Râșnov Fortress, with Carpathian scenery along the way." }
+  - { day: 4, title: "On to Sibiu", detail: "Travel west to Sibiu; an afternoon in the Grand and Small Squares and across the Bridge of Lies." }
+  - { day: 5, title: "Sibiu & departure", detail: "A last wander beneath the \"eyes of Sibiu\" rooftops before heading home." }
+included:
+  - "Hotel accommodation (4 nights)"
+  - "Daily breakfast"
+  - "Guided sightseeing as per the itinerary"
+  - "Entrance to Bran Castle"
+  - "Local transport between Brașov and Sibiu"
+excluded:
+  - "Flights (land-only trip)"
+  - "Lunches and dinners"
+  - "Travel insurance"
+  - "Personal expenses and optional activities"
+  - "Tips and gratuities"
 ---
 
 The greatest-hits loop through Transylvania: fairy-tale Brașov, the legend of
