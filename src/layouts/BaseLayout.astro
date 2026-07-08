@@ -1,16 +1,16 @@
 ---
 import "../styles/global.css";
-const { title = "Voia — Travel the way you feel" } = Astro.props;
+const {
+  title = "Voia — Travel the way you feel",
+  description = "Voia helps you find a destination by the kind of trip you want — pick a vibe or describe your dream trip in plain words.",
+} = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Voia helps you find a destination by the kind of trip you want — pick a vibe or describe your dream trip in plain words."
-    />
+    <meta name="description" content={description} />
     <title>{title}</title>
 
     <!-- Fonts: Bricolage Grotesque (display) + Plus Jakarta Sans (body) -->
