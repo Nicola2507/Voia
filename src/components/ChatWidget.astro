@@ -152,6 +152,7 @@ const GREETING = "Hi! I'm your Voia guide. What kind of trip are you in the mood
   const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
 
   const history: ChatMessage[] = [{ role: "bot", text: GREETING }];
+  const sessionId = crypto.randomUUID();
   let isOpen = false;
   let isSending = false;
 
@@ -230,7 +231,7 @@ const GREETING = "Hi! I'm your Voia guide. What kind of trip are you in the mood
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history }),
+        body: JSON.stringify({ messages: history, session_id: sessionId }),
       });
 
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
