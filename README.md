@@ -1,43 +1,57 @@
-# Astro Starter Kit: Minimal
+# Voia
 
-```sh
-npm create astro@latest -- --template minimal
+Voia is a travel discovery → booking site. Visitors either pick a vibe — Beach,
+Mountain, City Break, Historical Monuments, Tourist Attractions, Nature &
+Landscapes, Adventure, or Relaxation & Wellness — or describe a dream trip in
+plain words ("somewhere warm in winter", "places like Santorini"), and get
+matched to destinations. Romania is the local hero, paired with well-known
+international destinations, and each place can lead to a curated, bookable
+trip via an in-house enquiry.
+
+See [`docs/DESIGN-RATIONALE.md`](docs/DESIGN-RATIONALE.md) for why the site is
+built the way it is.
+
+## Stack
+
+- **[Astro 7](https://docs.astro.build)** — static output by default
+- **Tailwind v4** via `@tailwindcss/vite`
+- **Supabase** (Postgres + Row Level Security) for enquiries and chat transcripts
+- **`@astrojs/netlify`** adapter — the site stays static; only `/api/chat` is an on-demand route
+- **Google Gemini** (`gemini-2.5-flash`) via `@google/genai`, called server-side only
+- **Node ≥ 22.12**
+
+## Run locally
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Build and preview the production output:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Environment variables
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Copy `.env.example` to `.env` and fill in real values (`.env` is gitignored,
+never committed):
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+cp .env.example .env
+```
 
-## 🧞 Commands
+| Variable | Holds | Notes |
+|---|---|---|
+| `PUBLIC_SUPABASE_URL` | Supabase project URL | Safe in the browser |
+| `PUBLIC_SUPABASE_ANON_KEY` | Supabase **publishable** key | Safe in the browser — RLS limits it to inserting enquiries/transcripts, nothing else |
+| `GEMINI_API_KEY` | Google Gemini API key | **Server-only** — never prefixed with `PUBLIC_`, never sent to the browser |
 
-All commands are run from the root of the project, from a terminal:
+## Deploy
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Push to `main` and Netlify builds automatically (`npm run build`, publish
+directory `dist`, `NODE_VERSION = 22` via `netlify.toml`). The same three env
+vars are set in the Netlify dashboard, with `GEMINI_API_KEY` stored as a
+secret.
