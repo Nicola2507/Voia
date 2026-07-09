@@ -158,7 +158,7 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 ---
 
 ## 10 · Open gaps / TODOs (kept honest)
-- **`/privacy`:** real contact email + the enquiries retention period are still placeholders. *(Chat-transcript retention is now set — ~1 month, auto-purged via `pg_cron` — see §4.3/§7.)*
+- **`/privacy`:** ✅ **Resolved (10 Jul 2026)** — real contact email (`alexandrugabrielnicola8@gmail.com`) and the enquiries retention period (~1 month / 30 days) are now set, with a matching daily `pg_cron` purge (`voia-purge-enquiries`, `supabase/enquiries_purge.sql`) mirroring the chat-transcript purge. *(Chat-transcript retention was already set — ~1 month, auto-purged via `pg_cron` — see §4.3/§7.)*
 - **Email notifications** — deferred (§8). *(Admin dashboard is now done — see §8.)*
 - **Spam:** only a honeypot today; an insert-only public form can still be spammed — consider rate-limiting or moving inserts behind a server function if it becomes a problem.
 - **Currency:** EUR vs RON display is still open (`03_content` §8).

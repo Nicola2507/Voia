@@ -5,7 +5,7 @@
 A **travel website** (university project) that helps visitors quickly find destinations based on the **type of vacation** they want. The core experience: pick a vibe — Beach, Mountain, City Break, Historical Monuments, Tourist Attractions, Nature & Landscapes, Adventure, Relaxation & Wellness — **or** describe a dream trip in plain words ("somewhere warm in winter", "places like Santorini") and get matched to destinations.
 
 ## Status
-**Day 1 — brand and content not created yet.** Architecture and approach are decided; the first task is inventing the brand + catalog.
+**Shipped** (live in production).
 
 ## Goals
 - Help users find destinations fast, in an extremely simple, inspiring, **mobile-first** experience.
