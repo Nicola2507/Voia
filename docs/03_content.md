@@ -482,7 +482,7 @@ Per the project rule, these are **not yet real** and must be sourced before publ
 - **Operational details** — exact durations, hotel names, opening hours, transport. Not stated anywhere in copy.
 - **Photos & licensing** — every destination/package needs properly licensed imagery. Until then, ship the **gradient / no-photo** placeholders (per `02_design-system` §7.1).
 - **Currency** — EUR for now. Decide EUR vs RON (or both) for display, especially for Romanian trips. `currency` field makes this a small change.
-- **Booking mechanism** — still undecided (affiliate links vs in-house **inquiry → Supabase**, per `00_brief` / `00_project-overview`). For this build the trip CTA is a **placeholder** ("Enquire about this trip") that points to the future contact/inquiry flow — **no real checkout or form yet**. That flow is its own later task.
+- **Booking mechanism — RESOLVED (9 Jul 2026):** in-house **enquiry → Supabase**, not affiliate. The Contact/Enquiry page (`/contact`) saves to an `enquiries` table with an insert-only RLS policy (anyone can INSERT; no public read). The “Enquire about this trip” CTAs on package/destination pages deep-link to it with the trip pre-filled. Anonymous-by-default + GDPR consent. **Still deferred (later server-side task):** email notifications on new enquiries and the admin dashboard. See `BUILD-STATUS.md`.
 - **Vibe slugs** — §5 slugs must match the homepage's existing `/vibe/{slug}` links exactly. The homepage is the source of truth; reconcile if they differ.
 - **Coordinates / map** — not included (a map is out of scope for now). Easy to add a `coordinates` field later if we want a "where is it" map.
 
