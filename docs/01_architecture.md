@@ -79,7 +79,7 @@ Anonymous lead capture for the chat widget (§4a). Every `/api/chat` request sav
 | `interest_tag` | text | reserved for future use; always `null` today |
 | `status` | text | admin workflow; default `'new'` |
 
-Schema is version-controlled in the repo at **`supabase/chat_transcripts.sql`**. Same RLS shape as `enquiries` (§4.2): **insert-only** for `anon` + `authenticated`, no `SELECT`/`UPDATE`/`DELETE` policy, written with the **publishable key** — never `service_role`. The insert happens server-side in `src/pages/api/chat.ts`, awaited before the response is sent, wrapped in try/catch so a save failure is logged but never changes or blocks the reply. **Retention: ~1 month**, then deleted (§7).
+Schema is version-controlled in the repo at **`supabase/chat_transcripts.sql`**. Same RLS shape as `enquiries` (§4.2): **insert-only** for `anon` + `authenticated`, no `SELECT`/`UPDATE`/`DELETE` policy, written with the **publishable key** — never `service_role`. The insert happens server-side in `src/pages/api/chat.ts`, awaited before the response is sent, wrapped in try/catch so a save failure is logged but never changes or blocks the reply. **Retention: ~1 month** — a daily `pg_cron` job (`voia-purge-chat-transcripts`) deletes rows older than 30 days, so the promise is self-enforcing (§7). The purge is included in `supabase/chat_transcripts.sql`.
 
 ---
 
@@ -136,7 +136,7 @@ The browser client is built once in **`src/lib/supabase.ts`** from the `PUBLIC_`
 - **Data minimisation** — only fields needed to reply; dates/party size optional; no phone, no marketing bundled in.
 - **Anonymous-by-default** — no analytics/cookies on the form; no IP/user-agent stored.
 - **Transparency & rights** — a `/privacy` notice explains what/why/who-sees-it; erasure is a single row delete in the dashboard.
-- **Chatbot (`/api/chat`):** chat input is sent to Google's Gemini API to generate a reply. The bot doesn't ask for or store personal details, but an **anonymous transcript** of the conversation (messages plus a random session id — no PII, no IP address) is saved to Supabase's `chat_transcripts` table (§4.3) so we can learn what people ask; lawful basis is **legitimate interest**. Retention is **~1 month**, then the row is deleted. `/privacy` discloses both the Gemini hand-off and the anonymous transcript save; booking or anything visitor-specific is routed to `/contact` instead of being collected in chat.
+- **Chatbot (`/api/chat`):** chat input is sent to Google's Gemini API to generate a reply. The bot doesn't ask for or store personal details, but an **anonymous transcript** of the conversation (messages plus a random session id — no PII, no IP address) is saved to Supabase's `chat_transcripts` table (§4.3) so we can learn what people ask; lawful basis is **legitimate interest**. Retention is **~1 month**, enforced by a daily `pg_cron` purge of rows older than 30 days. `/privacy` discloses both the Gemini hand-off and the anonymous transcript save; booking or anything visitor-specific is routed to `/contact` instead of being collected in chat.
 
 ---
 
@@ -156,7 +156,7 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 ---
 
 ## 10 · Open gaps / TODOs (kept honest)
-- **`/privacy`:** real contact email + a retention period (placeholders today).
+- **`/privacy`:** real contact email + the enquiries retention period are still placeholders. *(Chat-transcript retention is now set — ~1 month, auto-purged via `pg_cron` — see §4.3/§7.)*
 - **Email notifications + admin dashboard** — deferred (§8).
 - **Spam:** only a honeypot today; an insert-only public form can still be spammed — consider rate-limiting or moving inserts behind a server function if it becomes a problem.
 - **Currency:** EUR vs RON display is still open (`03_content` §8).
@@ -165,7 +165,4 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 ---
 
 ## Cross-references
-`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supabase/enquiries.sql`, `supabase/chat_transcripts.sql` (schemas).
-
-## ✅ Knowledge file to update
-- **Save as `01_architecture.md`** in the Project knowledge, and drop a copy in the repo at **`docs/01_architecture.md`** (commit it). Update whenever an architectural decision changes, and log the change in `BUILD-STATUS`.
+`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supa
