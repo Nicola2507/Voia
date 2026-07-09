@@ -19,7 +19,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
   title="Contact — Voia"
   description="Tell us about your trip and we'll take it from here — send Voia your travel enquiry and we'll follow up by email."
 >
-  <main class="flex-1">
+  <main id="main-content" class="flex-1">
     <section class="mx-auto max-w-2xl px-6 pt-8 sm:px-8">
       <h1 class="font-display text-3xl font-bold tracking-tight text-ink md:text-4xl">Contact</h1>
       <p class="mt-2 max-w-prose text-lg text-sand-700">
@@ -50,7 +50,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
 
         <div>
           <label for="name" class={labelClass}>
-            Your name <span class="font-normal text-sand-500">(required)</span>
+            Your name <span class="font-normal text-sand-600">(required)</span>
           </label>
           <input id="name" name="name" type="text" required autocomplete="name" aria-describedby="name-error" class={inputClass} />
           <p id="name-error" class={errorClass} role="alert">
@@ -63,7 +63,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
 
         <div>
           <label for="email" class={labelClass}>
-            Email <span class="font-normal text-sand-500">(required)</span>
+            Email <span class="font-normal text-sand-600">(required)</span>
           </label>
           <input id="email" name="email" type="email" required autocomplete="email" aria-describedby="email-help email-error" class={inputClass} />
           <p id="email-help" class={helpClass}>We'll only use this to reply to your enquiry.</p>
@@ -110,7 +110,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
         </div>
 
         <div>
-          <p class={`${labelClass} mb-2`}>Travel dates <span class="font-normal text-sand-500">(optional)</span></p>
+          <p class={`${labelClass} mb-2`}>Travel dates <span class="font-normal text-sand-600">(optional)</span></p>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label for="travel_from" class="block text-sm font-medium text-sand-700 mb-1.5">From</label>

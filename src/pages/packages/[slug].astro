@@ -40,7 +40,7 @@ const basedIn = await Promise.all(destinationRefs.map((ref) => getEntry(ref)));
 const enquiryHref = `/contact?trip=${encodeURIComponent(entry.id)}&title=${encodeURIComponent(title)}`;
 ---
 <BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
-    <main class="flex-1">
+    <main id="main-content" class="flex-1">
       <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
         <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
           <li>

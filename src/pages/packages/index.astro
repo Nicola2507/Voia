@@ -11,7 +11,7 @@ const packages = await getCollection("packages");
   title="Trips — Voia"
   description="Voia's curated tour packages — from a five-day Transylvania classic to a Bali winter escape. Prices shown are indicative placeholders."
 >
-    <main class="flex-1">
+    <main id="main-content" class="flex-1">
       <section class="mx-auto max-w-5xl px-6 pb-6 pt-4 sm:px-8">
         <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">Trips</h1>
         <p class="mt-3 max-w-prose text-lg leading-relaxed text-sand-700">
@@ -112,6 +112,12 @@ const packages = await getCollection("packages");
         const slug = chip.dataset.vibe ?? "all";
         window.location.hash = slug === "all" ? "" : `vibe=${slug}`;
         applyFilter(slug);
+      });
+      chip.addEventListener("keydown", (event) => {
+        if (event.key === " " || event.key === "Spacebar") {
+          event.preventDefault();
+          chip.click();
+        }
       });
     });
 
