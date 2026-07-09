@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout
+  title="About — Voia"
+  description="Why Voia starts with a feeling, not a map — a warm, mood-first way to find your next trip, rooted in Romania and open to the world. A student project."
+>
+  <main id="main-content" class="flex-1">
+    <section class="mx-auto max-w-3xl px-6 pt-8 sm:px-8 sm:pt-12">
+      <h1 class="text-4xl font-bold tracking-tight text-ink md:text-5xl">About Voia</h1>
+      <p class="mt-4 max-w-prose text-lg leading-relaxed text-sand-700">
+        Most travel sites ask you one question first: <em>where to?</em> Voia asks a
+        better one — <strong class="font-semibold text-ink">how do you want to feel?</strong>
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 py-10 sm:px-8">
+      <h2 class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+        Start with a feeling
+      </h2>
+      <p class="mt-3 max-w-prose text-base leading-relaxed text-sand-700">
+        Voia began with a familiar kind of stuck. You know you want somewhere warm and
+        slow for winter, or mountains and quiet, or a city to get lost in — but the search
+        box wants a place name you don't have yet. So we flipped it around. You start with a
+        vibe — beach, mountains, a buzzing city, deep nature — or just describe the trip in
+        your own words, and Voia points you to places that fit. Choose by mood, not by map.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 py-10 sm:px-8">
+      <h2 class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+        Rooted in Romania, open to the world
+      </h2>
+      <p class="mt-3 max-w-prose text-base leading-relaxed text-sand-700">
+        Voia is proudly Romanian at heart. Alongside the world's classics — Santorini's
+        sunsets, Rome's ruins, Bali in the depths of winter — we put Romania's own
+        underrated gems: the wild Danube Delta, the fairy-tale streets of Brașov and Sibiu,
+        and the long sandy summers of the Black Sea. It's a small, honest catalogue — four
+        Romanian escapes and four international ones, with a handful of trips you can enquire
+        about — picked to feel like a well-travelled friend saying, <em>"oh, you'll love
+        this one."</em>
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 py-10 sm:px-8">
+      <h2 class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+        Plain, honest, for everyone
+      </h2>
+      <p class="mt-3 max-w-prose text-base leading-relaxed text-sand-700">
+        We try to talk like a person, not a brochure — plain words, and none of the
+        breathless "once-in-a-lifetime" hype. Every budget is welcome: a weekend in the
+        Carpathians counts as much as two weeks in Bali. And we try to be honest about the
+        trade-offs. If August on the coast gets busy, or a mountain road closes for winter,
+        we'll say so. The goal is simple — help you find a place you'll actually love, and
+        feel good about the choice.
+      </p>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 py-10 sm:px-8">
+      <div class="rounded-2xl bg-sand-100 p-6 sm:p-8">
+        <h2 class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+          The honest bit
+        </h2>
+        <p class="mt-3 max-w-prose text-base leading-relaxed text-sand-700">
+          Voia is a fictional brand, built as a university project. The name comes from the
+          Romanian phrase <em>după voia ta</em> — roughly <em>"as you please, as the mood
+          takes you."</em> Because it's a student build, the prices and photos you'll see are
+          placeholders to make the site feel real, not actual offers. The places, though —
+          and the feeling behind them — are the genuine article.
+        </p>
+      </div>
+    </section>
+
+    <section class="mx-auto max-w-3xl px-6 pb-16 pt-2 sm:px-8">
+      <h2 class="font-display text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+        Ready to find your place?
+      </h2>
+      <p class="mt-3 max-w-prose text-base leading-relaxed text-sand-700">
+        Have a browse, or tell us the kind of trip you're dreaming of — we'll help you find
+        the place.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a
+          href="/destinations"
+          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-coral-600 px-5 font-semibold text-white transition-colors hover:bg-coral-700 active:bg-coral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+        >
+          Explore destinations
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-white px-5 font-semibold text-teal-700 ring-1 ring-teal-600 transition-colors hover:bg-teal-50 active:bg-teal-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+        >
+          Get in touch
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
+    <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
+    <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
+    <nav aria-label="Footer" class="mt-3 flex flex-wrap items-center justify-center gap-x-1">
+      <a href="/about" aria-current="page" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 aria-[current=page]:font-semibold aria-[current=page]:text-coral-700">
+        About
+      </a>
+      <a href="/contact" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 aria-[current=page]:font-semibold aria-[current=page]:text-coral-700">
+        Contact
+      </a>
+    </nav>
+    <p class="mt-1 text-xs text-sand-600">A university project.</p>
+  </footer>
+</BaseLayout>

@@ -9,6 +9,7 @@ const {
 const pathname = Astro.url.pathname;
 const isDestinations = pathname.startsWith("/destinations");
 const isTrips = pathname.startsWith("/packages");
+const isAbout = pathname.startsWith("/about");
 const isContact = pathname.startsWith("/contact");
 
 const navLinkClass =
@@ -45,6 +46,9 @@ const navLinkClass =
           </a>
           <a href="/packages" aria-current={isTrips ? "page" : undefined} class={navLinkClass}>
             Trips
+          </a>
+          <a href="/about" aria-current={isAbout ? "page" : undefined} class={navLinkClass}>
+            About
           </a>
           <a href="/contact" aria-current={isContact ? "page" : undefined} class={navLinkClass}>
             Contact
