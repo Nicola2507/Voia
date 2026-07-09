@@ -37,4 +37,3 @@ Is this primarily a **discovery / recommendation** platform (recommends destinat
 
 ## Working style
 The owner is **non-technical**: explain choices in plain language, give copy-paste-ready steps, work **one task per chat**, **commit after each working step**, never expose secrets, and ask before anything destructive or any spending.
-```
