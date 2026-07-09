@@ -61,11 +61,12 @@ RLS is **ON**, with exactly **one** policy:
 
 > **"Anyone can submit an enquiry"** — `INSERT`, roles `anon` + `authenticated`, `with check (true)`.
 
-There is deliberately **no** `SELECT` / `UPDATE` / `DELETE` policy, so the public key can **create** an enquiry but can never **read, list, edit, or delete** them.
+There is deliberately **no** `SELECT` / `UPDATE` / `DELETE` policy for `anon`/`authenticated` at large, so the public key can **create** an enquiry but can never **read, list, edit, or delete** them.
 
-- **Admin reads (now):** in the Supabase dashboard (**Table Editor**), which runs as the service role and bypasses RLS — so only someone logged into the project sees enquiries.
-- **Admin reads (later):** the admin dashboard (§8) will add a `SELECT` policy scoped to the authenticated admin user.
-- **State:** insert verified working (`POST` → `201`); with no read policy, the public key's `SELECT` returns nothing. *(An earlier misconfig briefly allowed public reads; fixed 9 Jul — see `BUILD-STATUS`.)*
+**Admin read access:** both `enquiries` and `chat_transcripts` (§4.3) additionally carry one `SELECT` policy each, scoped to the single admin user's UID (`(select auth.uid()) = '<ADMIN_USER_UID>'::uuid`, role `authenticated`) — versioned at `supabase/admin_read_policies.sql` and consumed by the `/admin` dashboard (§8). The anon/publishable key still has **no** read access to either table; there is still **no** `UPDATE`/`DELETE` policy on either table, from any role — the dashboard is read-only and GDPR erasure stays a Supabase dashboard action.
+
+- **Admin reads (now):** the `/admin` dashboard (§8), via a `SELECT` policy scoped to the admin — see §4.2. (The Supabase dashboard **Table Editor** also still works, as a service-role/owner-login path, independent of the app.)
+- **State:** insert verified working (`POST` → `201`); with no anon `SELECT` policy, the public key's `SELECT` returns nothing. *(An earlier misconfig briefly allowed public reads; fixed 9 Jul — see `BUILD-STATUS`.)*
 
 ### 4.3 · `chat_transcripts` table
 Anonymous lead capture for the chat widget (§4a). Every `/api/chat` request saves the conversation server-side — **no personal data, no IP address, no user-agent.**
@@ -79,7 +80,7 @@ Anonymous lead capture for the chat widget (§4a). Every `/api/chat` request sav
 | `interest_tag` | text | reserved for future use; always `null` today |
 | `status` | text | admin workflow; default `'new'` |
 
-Schema is version-controlled in the repo at **`supabase/chat_transcripts.sql`**. Same RLS shape as `enquiries` (§4.2): **insert-only** for `anon` + `authenticated`, no `SELECT`/`UPDATE`/`DELETE` policy, written with the **publishable key** — never `service_role`. The insert happens server-side in `src/pages/api/chat.ts`, awaited before the response is sent, wrapped in try/catch so a save failure is logged but never changes or blocks the reply. **Retention: ~1 month** — a daily `pg_cron` job (`voia-purge-chat-transcripts`) deletes rows older than 30 days, so the promise is self-enforcing (§7). The purge is included in `supabase/chat_transcripts.sql`.
+Schema is version-controlled in the repo at **`supabase/chat_transcripts.sql`**. Same RLS shape as `enquiries` (§4.2): **insert-only** for `anon` + `authenticated`, no anon `SELECT`/`UPDATE`/`DELETE` policy, written with the **publishable key** — never `service_role`. The insert happens server-side in `src/pages/api/chat.ts`, awaited before the response is sent, wrapped in try/catch so a save failure is logged but never changes or blocks the reply. **Retention: ~1 month** — a daily `pg_cron` job (`voia-purge-chat-transcripts`) deletes rows older than 30 days, so the promise is self-enforcing (§7). The purge is included in `supabase/chat_transcripts.sql`. **Admin reads (now):** the `/admin` dashboard (§8), via the admin-UID-scoped `SELECT` policy described in §4.2.
 
 ---
 
@@ -142,9 +143,10 @@ The browser client is built once in **`src/lib/supabase.ts`** from the `PUBLIC_`
 
 ## 8 · Deferred / roadmap
 - **Email notification** on a new enquiry.
-- **Admin dashboard** — Supabase Auth login + a `SELECT` policy scoped to the admin, to read enquiries **and chat transcripts** in-app.
 - **Chatbot:** further work — optional **pgvector** for "similar destination" search; streaming responses; multi-language. (Anonymous transcript capture is **done** — see §4.3, §4a, and `BUILD-STATUS`.)
 - **Social feature** — a later module.
+
+**Done:** **Admin dashboard** — a private, client-gated, static `/admin` page (Supabase Auth email+password login) reads the 50 most recent `enquiries` and `chat_transcripts` rows, via a `SELECT` policy scoped to the single admin's UID on each table (§4.2). Read-only — no edit/delete/update controls or policies. See `BUILD-STATUS` for the build log.
 
 These each need either the **secret key kept server-side** (have it, via `/api/chat`) or new Supabase writes/policies.
 
@@ -157,7 +159,7 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 
 ## 10 · Open gaps / TODOs (kept honest)
 - **`/privacy`:** real contact email + the enquiries retention period are still placeholders. *(Chat-transcript retention is now set — ~1 month, auto-purged via `pg_cron` — see §4.3/§7.)*
-- **Email notifications + admin dashboard** — deferred (§8).
+- **Email notifications** — deferred (§8). *(Admin dashboard is now done — see §8.)*
 - **Spam:** only a honeypot today; an insert-only public form can still be spammed — consider rate-limiting or moving inserts behind a server function if it becomes a problem.
 - **Currency:** EUR vs RON display is still open (`03_content` §8).
 - **Prices/itineraries** remain illustrative placeholders (`03_content`).
@@ -165,4 +167,7 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 ---
 
 ## Cross-references
-`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supa
+`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supabase/enquiries.sql`, `supabase/chat_transcripts.sql` (schemas).
+
+## ✅ Knowledge file to update
+- **Save as `01_architecture.md`** in the Project knowledge, and drop a copy in the repo at **`docs/01_architecture.md`** (commit it). Update whenever an architectural decision changes, and log the change in `BUILD-STATUS`.
