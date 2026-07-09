@@ -4,10 +4,12 @@ import { GoogleGenAI } from "@google/genai";
 
 export const prerender = false;
 
-// Confirmed against the live models.list endpoint for this API key (Jul 2026):
-// gemini-3.5-flash is the current stable, non-preview Flash text model.
-// gemini-flash-latest is a rolling alias kept here only as a documented fallback.
-const GEMINI_MODEL = "gemini-3.5-flash";
+// Confirmed against the live models.list endpoint for this API key (Jul 2026).
+// gemini-3.5-flash and the gemini-flash-latest alias (which currently points to
+// it) were both returning 503 "high demand" from Google at build time, so this
+// uses gemini-2.5-flash — the established, reliably-available free-tier Flash
+// model — instead. Revisit once gemini-3.5-flash capacity settles.
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_LENGTH = 20;
@@ -52,6 +54,7 @@ VOICE
 - Inspiring, not hype-y: paint the feeling, don't shout "once-in-a-lifetime."
 - Helpful and honest: if something's seasonal, crowded, or pricey, say so.
 - Keep replies short and friendly — a few sentences, not an essay.
+- Reply in plain text only — no markdown (no asterisks, headers, or bullet lists), since replies render as plain chat bubbles.
 
 CATALOG — the only destinations and packages you may discuss (do not invent others):
 
