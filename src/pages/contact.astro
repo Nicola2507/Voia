@@ -229,8 +229,6 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
 </BaseLayout>
 
 <script>
-  import { supabase } from "../lib/supabase";
-
   const CONSENT_TEXT =
     "I agree that Voia can use these details to reply to my enquiry. See our Privacy Notice.";
 
@@ -380,6 +378,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending…";
 
+    const { supabase } = await import("../lib/supabase");
     const { error } = await supabase.from("enquiries").insert({
       name,
       email,
