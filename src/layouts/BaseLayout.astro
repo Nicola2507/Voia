@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ChatWidget from "../components/ChatWidget.astro";
 const {
   title = "Voia — Travel the way you feel",
   description = "Voia helps you find a destination by the kind of trip you want — pick a vibe or describe your dream trip in plain words.",
@@ -52,5 +53,6 @@ const navLinkClass =
       </header>
       <slot />
     </div>
+    <ChatWidget />
   </body>
 </html>
