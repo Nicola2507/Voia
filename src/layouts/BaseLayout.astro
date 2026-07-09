@@ -12,6 +12,8 @@ const isTrips = pathname.startsWith("/packages");
 const isAbout = pathname.startsWith("/about");
 const isContact = pathname.startsWith("/contact");
 
+const canonicalURL = new URL(pathname, Astro.site);
+
 const navLinkClass =
   "inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 aria-[current=page]:font-semibold aria-[current=page]:text-coral-700";
 ---
@@ -22,6 +24,19 @@ const navLinkClass =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Voia" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
 
     <!-- Fonts: Bricolage Grotesque (display) + Plus Jakarta Sans (body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -56,8 +56,17 @@ const vibes = [
     teaser: "Spa days and deep exhales.",
   },
 ];
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Voia",
+  url: Astro.site,
+  slogan: "Travel the way you feel.",
+};
 ---
 <BaseLayout title="Voia — Travel the way you feel">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationJsonLd)} />
     <main id="main-content" class="flex-1">
       <section class="mx-auto max-w-3xl px-6 pb-6 pt-8 text-center sm:px-8 sm:pt-12">
         <h1 class="text-4xl font-bold tracking-tight text-ink md:text-5xl">

@@ -40,8 +40,18 @@ const destinationEnquiryHref = `/contact?trip=${encodeURIComponent(entry.id)}&ti
 const packageEnquiryHref = linkedPackage
   ? `/contact?trip=${encodeURIComponent(linkedPackage.id)}&title=${encodeURIComponent(linkedPackage.data.title)}`
   : undefined;
+
+const destinationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TouristDestination",
+  name: title,
+  description: seoDescription ?? tagline,
+  address: { "@type": "Country", name: country },
+  url: new URL(`/destinations/${entry.id}`, Astro.site).toString(),
+};
 ---
 <BaseLayout title={`${title} — Voia`} description={seoDescription ?? tagline}>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(destinationJsonLd)} />
     <main id="main-content" class="flex-1">
       <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
         <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
