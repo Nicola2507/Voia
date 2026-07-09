@@ -28,7 +28,7 @@ A **static-first Astro** site (the catalog is baked in at build time) plus a **S
 
 ## 3 · Where data lives (and why)
 - **Static, in-repo (content collections):** the curated catalog — destinations, packages, vibes — because it changes rarely and benefits from build-time speed + SEO. Source of truth: `03_content`.
-- **Dynamic, in Supabase:** anything visitor-generated or changing at runtime. Today that's the **`enquiries`** table. Later: chatbot leads/transcripts, admin data, the social feature.
+- **Dynamic, in Supabase:** anything visitor-generated or changing at runtime. Today that's the **`enquiries`** table and the **`chat_transcripts`** table. Later: admin data, the social feature.
 
 **Rule of thumb:** if a visitor creates it, or it changes without a redeploy → **Supabase**. If it's our curated content → **content collection**.
 
@@ -67,6 +67,20 @@ There is deliberately **no** `SELECT` / `UPDATE` / `DELETE` policy, so the publi
 - **Admin reads (later):** the admin dashboard (§8) will add a `SELECT` policy scoped to the authenticated admin user.
 - **State:** insert verified working (`POST` → `201`); with no read policy, the public key's `SELECT` returns nothing. *(An earlier misconfig briefly allowed public reads; fixed 9 Jul — see `BUILD-STATUS`.)*
 
+### 4.3 · `chat_transcripts` table
+Anonymous lead capture for the chat widget (§4a). Every `/api/chat` request saves the conversation server-side — **no personal data, no IP address, no user-agent.**
+
+| Column | Type | Notes |
+|---|---|---|
+| `id` | uuid (pk) | `gen_random_uuid()` |
+| `created_at` | timestamptz | `now()` |
+| `session_id` | text (required) | a random id (`crypto.randomUUID()`) generated **in memory** per chat session on the client — not persisted (no `localStorage`), not tied to a visitor identity |
+| `transcript` | jsonb (required) | the full conversation as `[{ role, text }, ...]`, written once per request (incoming messages + the assistant's reply) |
+| `interest_tag` | text | reserved for future use; always `null` today |
+| `status` | text | admin workflow; default `'new'` |
+
+Schema is version-controlled in the repo at **`supabase/chat_transcripts.sql`**. Same RLS shape as `enquiries` (§4.2): **insert-only** for `anon` + `authenticated`, no `SELECT`/`UPDATE`/`DELETE` policy, written with the **publishable key** — never `service_role`. The insert happens server-side in `src/pages/api/chat.ts`, awaited before the response is sent, wrapped in try/catch so a save failure is logged but never changes or blocks the reply. **Retention: ~1 month**, then deleted (§7).
+
 ---
 
 ## 4a · AI chatbot concierge (`/api/chat`)
@@ -77,7 +91,7 @@ The Voia guide — a chat widget on every page (`02_design-system` §7.5), backe
 - **Grounded at request time, not hardcoded.** The system prompt is rebuilt on every request from `getCollection('destinations')` + `getCollection('packages')`, so the bot always reflects the live catalog — one source of truth, per §3.
 - **Guardrails:** warm Voia voice; only discusses this catalog and closely-related general travel help (off-topic → a brief note pointing to `/contact`); package prices are always framed as indicative placeholders, never stated as final; no invented hotels/hours/itinerary detail; plain-text replies only (the widget renders chat bubbles, not markdown).
 - **Input handling:** validates the `{ messages: [{role, text}] }` payload shape, caps message length (1000 chars) and history length (20 messages); on any failure (bad input, missing key, Gemini error) it logs server-side and returns a generic `500` — never leaks the key or raw provider errors to the client.
-- **GDPR / no PII:** the bot does not ask for or store personal details, and nothing from the chat is written to Supabase (no lead capture in this pass — see `BUILD-STATUS` for what's deferred). Booking or anything specific to the visitor is routed to the `/contact` enquiry form instead. `/privacy` discloses that chat messages are sent to Google's Gemini API to generate a reply.
+- **GDPR / no PII:** the bot does not ask for or store personal details. An **anonymous transcript** of each conversation (messages only, keyed to a random in-memory session id — see §4.3) is saved to Supabase for lead-capture/product-learning purposes; no name, email, IP address, user-agent, or other identifying detail is ever stored with it, and a save failure never affects the reply. Booking or anything specific to the visitor is routed to the `/contact` enquiry form instead. `/privacy` discloses both the Gemini hand-off and the anonymous transcript save.
 
 ---
 
@@ -122,14 +136,14 @@ The browser client is built once in **`src/lib/supabase.ts`** from the `PUBLIC_`
 - **Data minimisation** — only fields needed to reply; dates/party size optional; no phone, no marketing bundled in.
 - **Anonymous-by-default** — no analytics/cookies on the form; no IP/user-agent stored.
 - **Transparency & rights** — a `/privacy` notice explains what/why/who-sees-it; erasure is a single row delete in the dashboard.
-- **Chatbot (`/api/chat`):** chat input is sent to Google's Gemini API to generate a reply. The bot doesn't ask for or store personal details, and no chat data is written to Supabase. `/privacy` discloses the Gemini hand-off; booking or anything visitor-specific is routed to `/contact` instead of being collected in chat.
+- **Chatbot (`/api/chat`):** chat input is sent to Google's Gemini API to generate a reply. The bot doesn't ask for or store personal details, but an **anonymous transcript** of the conversation (messages plus a random session id — no PII, no IP address) is saved to Supabase's `chat_transcripts` table (§4.3) so we can learn what people ask; lawful basis is **legitimate interest**. Retention is **~1 month**, then the row is deleted. `/privacy` discloses both the Gemini hand-off and the anonymous transcript save; booking or anything visitor-specific is routed to `/contact` instead of being collected in chat.
 
 ---
 
 ## 8 · Deferred / roadmap
 - **Email notification** on a new enquiry.
-- **Admin dashboard** — Supabase Auth login + a `SELECT` policy scoped to the admin, to read enquiries in-app.
-- **Chatbot lead capture** — saving chat transcripts/leads to Supabase; optional **pgvector** for "similar destination" search; streaming responses; multi-language. (The chatbot itself — secure endpoint + widget, grounded in the live catalog — is live; see §4a and `BUILD-STATUS`.)
+- **Admin dashboard** — Supabase Auth login + a `SELECT` policy scoped to the admin, to read enquiries **and chat transcripts** in-app.
+- **Chatbot:** further work — optional **pgvector** for "similar destination" search; streaming responses; multi-language. (Anonymous transcript capture is **done** — see §4.3, §4a, and `BUILD-STATUS`.)
 - **Social feature** — a later module.
 
 These each need either the **secret key kept server-side** (have it, via `/api/chat`) or new Supabase writes/policies.
@@ -151,7 +165,7 @@ Push to `main` on GitHub → Netlify builds (`npm run build`, publish dir `dist`
 ---
 
 ## Cross-references
-`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supabase/enquiries.sql` (schema).
+`00_brief` (brand) · `00_project-overview` (vision + rules) · `02_design-system` (UI) · `03_content` (catalog) · `BUILD-STATUS` (live state) · `supabase/enquiries.sql`, `supabase/chat_transcripts.sql` (schemas).
 
 ## ✅ Knowledge file to update
 - **Save as `01_architecture.md`** in the Project knowledge, and drop a copy in the repo at **`docs/01_architecture.md`** (commit it). Update whenever an architectural decision changes, and log the change in `BUILD-STATUS`.
