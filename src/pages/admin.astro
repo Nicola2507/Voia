@@ -115,14 +115,17 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
   const passwordInput = document.getElementById("password") as HTMLInputElement;
   const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement;
   const enquiriesList = document.getElementById("enquiries-list") as HTMLElement;
+  const transcriptsList = document.getElementById("transcripts-list") as HTMLElement;
 
   let enquiriesLoaded = false;
+  let transcriptsLoaded = false;
 
   function showSignedOut() {
     signedInView.classList.add("hidden");
     signedOutView.classList.remove("hidden");
     signedOutView.classList.add("flex");
     enquiriesLoaded = false;
+    transcriptsLoaded = false;
   }
 
   function showSignedIn() {
@@ -132,6 +135,10 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
     if (!enquiriesLoaded) {
       enquiriesLoaded = true;
       loadEnquiries();
+    }
+    if (!transcriptsLoaded) {
+      transcriptsLoaded = true;
+      loadTranscripts();
     }
   }
 
@@ -342,6 +349,95 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
       return;
     }
     renderEnquiries(enquiriesList, (data ?? []) as Enquiry[]);
+  }
+
+  // ---- Recent chat transcripts ----
+
+  interface ChatMessage {
+    role: "user" | "bot";
+    text: string;
+  }
+
+  interface ChatTranscript {
+    created_at: string;
+    session_id: string;
+    transcript: unknown;
+    interest_tag: string | null;
+    status: string;
+  }
+
+  function shortenSessionId(sessionId: string): string {
+    return sessionId.length > 8 ? `${sessionId.slice(0, 8)}…` : sessionId;
+  }
+
+  function isChatMessage(value: unknown): value is ChatMessage {
+    if (typeof value !== "object" || value === null) return false;
+    const v = value as Record<string, unknown>;
+    return (v.role === "user" || v.role === "bot") && typeof v.text === "string";
+  }
+
+  function transcriptCard(t: ChatTranscript): HTMLElement {
+    const card = document.createElement("div");
+    card.className = "rounded-2xl border border-sand-200 bg-white p-4 shadow-sm";
+
+    const top = document.createElement("div");
+    top.className = "flex flex-wrap items-center justify-between gap-2";
+    const meta = document.createElement("p");
+    meta.className = "text-xs text-sand-600";
+    meta.textContent = `${formatDateTime(t.created_at)} · session ${shortenSessionId(t.session_id)}`;
+    top.append(meta, pill(t.status));
+    card.appendChild(top);
+
+    const messages = Array.isArray(t.transcript) ? t.transcript.filter(isChatMessage) : [];
+    const bubbles = document.createElement("div");
+    bubbles.className = "mt-3 space-y-2";
+
+    if (messages.length === 0) {
+      const empty = document.createElement("p");
+      empty.className = "text-sm text-sand-600";
+      empty.textContent = "No messages recorded.";
+      bubbles.appendChild(empty);
+    } else {
+      messages.forEach((m) => {
+        const bubble = document.createElement("div");
+        bubble.className =
+          m.role === "bot"
+            ? "max-w-[85%] rounded-2xl rounded-tl-sm bg-sand-50 px-3.5 py-2.5 text-sm text-ink"
+            : "ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-coral-600 px-3.5 py-2.5 text-sm text-white";
+        bubble.textContent = m.text;
+        bubbles.appendChild(bubble);
+      });
+    }
+    card.appendChild(bubbles);
+
+    return card;
+  }
+
+  function renderTranscripts(container: HTMLElement, rows: ChatTranscript[]) {
+    container.textContent = "";
+    if (rows.length === 0) {
+      renderEmpty(container, "No chat transcripts yet.");
+      return;
+    }
+    const wrap = document.createElement("div");
+    wrap.className = "space-y-4";
+    rows.forEach((t) => wrap.appendChild(transcriptCard(t)));
+    container.appendChild(wrap);
+  }
+
+  async function loadTranscripts() {
+    const { data, error } = await supabase
+      .from("chat_transcripts")
+      .select("created_at,session_id,transcript,interest_tag,status")
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    if (error) {
+      console.error("Failed to load chat transcripts:", error);
+      renderError(transcriptsList, "Couldn't load chat transcripts. Please try refreshing the page.");
+      return;
+    }
+    renderTranscripts(transcriptsList, (data ?? []) as ChatTranscript[]);
   }
 
   function showLoginError(message: string) {
