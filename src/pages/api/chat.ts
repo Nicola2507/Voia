@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { GoogleGenAI } from "@google/genai";
+import { supabase } from "../../lib/supabase";
 
 export const prerender = false;
 
@@ -13,6 +14,7 @@ const GEMINI_MODEL = "gemini-2.5-flash";
 
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_LENGTH = 20;
+const MAX_SESSION_ID_LENGTH = 100;
 
 type ChatRole = "user" | "bot";
 
@@ -79,6 +81,36 @@ function jsonResponse(body: unknown, status: number): Response {
   });
 }
 
+function resolveSessionId(payload: Record<string, unknown>): string {
+  const raw = payload.session_id;
+  if (
+    typeof raw === "string" &&
+    raw.length >= 1 &&
+    raw.length <= MAX_SESSION_ID_LENGTH
+  ) {
+    return raw;
+  }
+  return crypto.randomUUID();
+}
+
+async function saveTranscript(
+  sessionId: string,
+  transcript: ChatMessage[],
+): Promise<void> {
+  try {
+    const { error } = await supabase.from("chat_transcripts").insert({
+      session_id: sessionId,
+      transcript,
+      interest_tag: null,
+    });
+    if (error) {
+      console.error("Failed to save chat transcript:", error);
+    }
+  } catch (err) {
+    console.error("Failed to save chat transcript:", err);
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let payload: unknown;
   try {
@@ -102,6 +134,7 @@ export const POST: APIRoute = async ({ request }) => {
     return jsonResponse({ error: "Invalid request." }, 400);
   }
   const messages = rawMessages as ChatMessage[];
+  const sessionId = resolveSessionId(payload as Record<string, unknown>);
 
   const apiKey = import.meta.env.GEMINI_API_KEY ?? process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -132,6 +165,8 @@ export const POST: APIRoute = async ({ request }) => {
       console.error("Gemini returned an empty response.");
       return jsonResponse({ error: "Something went wrong. Please try again later." }, 500);
     }
+
+    await saveTranscript(sessionId, [...messages, { role: "bot", text: reply }]);
 
     return jsonResponse({ reply }, 200);
   } catch (err) {
