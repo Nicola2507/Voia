@@ -5,14 +5,14 @@ const sectionHeading = "font-display text-xl font-semibold tracking-tight text-i
 ---
 <BaseLayout
   title="Privacy Notice — Voia"
-  description="How Voia collects, uses, and protects the details you share through our enquiry form."
+  description="How Voia collects, uses, and protects the details you share through our enquiry form and chat assistant."
 >
   <main class="flex-1">
     <section class="mx-auto max-w-2xl px-6 pt-8 sm:px-8">
       <h1 class="font-display text-3xl font-bold tracking-tight text-ink md:text-4xl">Privacy Notice</h1>
       <p class="mt-2 max-w-prose text-lg text-sand-700">
-        A plain-language explanation of what we collect through our enquiry form, why, and how to
-        ask us to change or delete it.
+        A plain-language explanation of what we collect through our enquiry form and chat
+        assistant, why, and how to ask us to change or delete it.
       </p>
     </section>
 
@@ -65,18 +65,19 @@ const sectionHeading = "font-display text-xl font-semibold tracking-tight text-i
       </div>
 
       <div>
-        <h2 class={sectionHeading}>Our AI chat guide</h2>
+        <h2 class={sectionHeading}>The chat assistant</h2>
         <p class="mt-2 text-base leading-relaxed text-ink">
-          Messages you send the Voia guide chat are sent to Google's Gemini API to generate a
-          reply, and aren't saved by Voia. Please don't share personal details in the chat — for
-          booking or anything specific to you, use our{" "}
-          <a
-            href="/contact"
-            class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
-          >
-            contact form
-          </a>{" "}
-          instead.
+          When you chat with Voia, your messages are sent to Google's Gemini API to generate a reply.
+          We also save an anonymous copy of the conversation so we can learn what people ask and improve
+          Voia. It's stored against a random session code only — <strong>no name, email, IP address, or
+          device details are kept with it</strong>, and it isn't linked to you.
+        </p>
+        <p class="mt-2 text-base leading-relaxed text-ink">
+          Please don't type personal details into the chat — for booking or anything personal, use our{" "}
+          <a href="/contact" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">enquiry form</a>{" "}
+          instead. We keep these anonymous transcripts for up to about a month and then delete them; our
+          lawful basis is our legitimate interest in improving the service. As with enquiries, the website
+          itself can only add new transcripts — it can never read them back.
         </p>
       </div>
 
