@@ -1,0 +1,285 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DestinationCard from "../components/DestinationCard.astro";
+import PackageCard from "../components/PackageCard.astro";
+import VibeIcon from "../components/VibeIcon.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { getCollection } from "astro:content";
+import { VIBES } from "../data/vibes";
+import type { CatalogItem } from "../lib/search";
+
+const destinations = await getCollection("destinations");
+const packages = await getCollection("packages");
+const destinationById = new Map(destinations.map((d) => [d.id, d]));
+
+const catalog: CatalogItem[] = [
+  ...destinations.map(
+    (d): CatalogItem => ({
+      kind: "destination",
+      slug: d.id,
+      title: d.data.title,
+      country: d.data.country,
+      city: d.data.city,
+      region: d.data.region,
+      vibes: d.data.vibes,
+      activities: d.data.activities,
+      seasonMonths: d.data.seasonMonths,
+      tagline: d.data.tagline,
+      bestFor: d.data.bestFor,
+    }),
+  ),
+  ...packages.map((p): CatalogItem => {
+    const basedOn = p.data.destinations
+      .map((ref) => destinationById.get(ref.id))
+      .filter((d): d is NonNullable<typeof d> => Boolean(d));
+    return {
+      kind: "package",
+      slug: p.id,
+      title: p.data.title,
+      vibes: p.data.vibes,
+      activities: p.data.activities,
+      seasonMonths: p.data.seasonMonths,
+      durationDays: p.data.durationDays,
+      priceFrom: p.data.priceFrom,
+      priceTo: p.data.priceTo,
+      currency: p.data.currency,
+      tagline: p.data.tagline,
+      greatFor: p.data.greatFor,
+      countries: [...new Set(basedOn.map((d) => d.data.country))],
+      cities: [...new Set(basedOn.map((d) => d.data.city).filter((c): c is string => Boolean(c)))],
+    };
+  }),
+];
+---
+<BaseLayout
+  title="Search — Voia"
+  description="Describe the trip you want in plain words — Voia matches it against our destinations and trips."
+>
+  <script type="application/json" id="catalog-data" set:html={JSON.stringify(catalog).replace(/</g, "\\u003c")} />
+
+  <main id="main-content" class="flex-1">
+    <nav aria-label="Breadcrumb" class="mx-auto max-w-5xl px-6 pt-2 sm:px-8">
+      <ol class="flex flex-wrap items-center gap-1.5 text-sm text-sand-600">
+        <li>
+          <a href="/" class="rounded hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">Home</a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="font-medium text-sand-700">Search</li>
+      </ol>
+    </nav>
+
+    <section class="mx-auto max-w-2xl px-6 pb-6 pt-4 sm:px-8">
+      <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">Search</h1>
+      <p class="mt-2 max-w-prose text-lg text-sand-700">
+        Describe the trip you want — a vibe, a place, a budget, a season. We'll match it against our catalog.
+      </p>
+
+      <form id="refine-form" method="get" action="/search" class="mt-5">
+        <label for="refine-input" class="sr-only">Describe your dream trip</label>
+        <div class="rounded-[28px] bg-linear-to-r from-teal-500 to-coral-500 p-[1.5px] shadow-md focus-within:ring-2 focus-within:ring-coral-500 focus-within:ring-offset-2">
+          <div class="flex items-center gap-2 rounded-[26px] bg-white p-2 pl-4">
+            <span aria-hidden="true" class="shrink-0 text-teal-600">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+            </span>
+            <input
+              id="refine-input"
+              name="q"
+              type="text"
+              autocomplete="off"
+              class="min-h-11 w-full min-w-0 bg-transparent text-base text-ink placeholder:text-sand-600 focus:outline-none"
+              placeholder="Warm in winter · somewhere like Santorini · mountains and quiet…"
+            />
+            <button
+              type="submit"
+              class="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl bg-coral-600 px-4 font-semibold text-white transition-colors hover:bg-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 sm:px-5"
+            >
+              <span class="hidden sm:inline">Search</span>
+              <span aria-hidden="true" class="sm:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+              </span>
+              <span class="sr-only sm:hidden">Search</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div id="facet-chips" class="mt-3 hidden flex-wrap gap-2" aria-label="Interpreted as"></div>
+      <p id="result-count" role="status" aria-live="polite" class="mt-3 text-sm font-medium text-sand-700"></p>
+    </section>
+
+    <section id="empty-state" class="mx-auto hidden max-w-2xl px-6 pb-12 sm:px-8">
+      <div class="rounded-2xl bg-sand-100 p-6 sm:p-8">
+        <h2 id="empty-state-heading" class="font-display text-xl font-semibold tracking-tight text-ink">
+          No matches yet — try one of these vibes
+        </h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {
+            VIBES.map((vibe) => (
+              <a
+                href={`/vibe/${vibe.slug}`}
+                class="inline-flex min-h-10 items-center gap-1.5 rounded-full bg-white px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
+              >
+                <VibeIcon slug={vibe.slug} class="h-4 w-4" />
+                {vibe.name}
+              </a>
+            ))
+          }
+        </div>
+        <p class="mt-5 text-sand-700">
+          Can't find what you're after?{" "}
+          <a href="/contact" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">
+            Get in touch
+          </a>{" "}
+          and we'll help you plan it.
+        </p>
+      </div>
+    </section>
+
+    <section id="destinations-results" class="mx-auto max-w-5xl px-6 pb-10 sm:px-8">
+      <h2 class="mb-4 font-display text-2xl font-semibold tracking-tight text-ink">Destinations</h2>
+      <div id="destinations-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {
+          destinations.map((d, i) => (
+            <div class="search-card" data-kind="destination" data-slug={d.id} hidden>
+              <DestinationCard destination={d} index={i} />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="packages-results" class="mx-auto max-w-5xl px-6 pb-16 sm:px-8">
+      <h2 class="mb-4 font-display text-2xl font-semibold tracking-tight text-ink">Trips</h2>
+      <div id="packages-grid" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          packages.map((p, i) => (
+            <div class="search-card" data-kind="package" data-slug={p.id} hidden>
+              <PackageCard pkg={p} index={i} />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+
+  <script>
+    import { buildIndex, search, type CatalogItem, type Facets } from "../lib/search";
+
+    const VIBE_NAMES: Record<string, string> = {
+      beach: "Beach",
+      mountain: "Mountain",
+      "city-break": "City Break",
+      "historical-monuments": "Historical Monuments",
+      "tourist-attractions": "Tourist Attractions",
+      "nature-landscapes": "Nature & Landscapes",
+      adventure: "Adventure",
+      "relaxation-wellness": "Relaxation & Wellness",
+    };
+    const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const dataEl = document.getElementById("catalog-data");
+    const catalog: CatalogItem[] = dataEl ? JSON.parse(dataEl.textContent ?? "[]") : [];
+    const index = buildIndex(catalog);
+
+    const refineInput = document.getElementById("refine-input") as HTMLInputElement;
+    const resultCount = document.getElementById("result-count") as HTMLElement;
+    const facetChips = document.getElementById("facet-chips") as HTMLElement;
+    const emptyState = document.getElementById("empty-state") as HTMLElement;
+    const emptyStateHeading = document.getElementById("empty-state-heading") as HTMLElement;
+    const destinationsSection = document.getElementById("destinations-results") as HTMLElement;
+    const packagesSection = document.getElementById("packages-results") as HTMLElement;
+
+    const cardEls = new Map<string, HTMLElement>();
+    document.querySelectorAll<HTMLElement>(".search-card").forEach((el) => {
+      const kind = el.dataset.kind;
+      const slug = el.dataset.slug;
+      if (kind && slug) cardEls.set(`${kind}:${slug}`, el);
+    });
+
+    function facetChip(label: string): HTMLSpanElement {
+      const span = document.createElement("span");
+      span.className =
+        "inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-sm font-medium text-teal-800";
+      span.textContent = label;
+      return span;
+    }
+
+    function renderFacets(facets: Facets) {
+      facetChips.textContent = "";
+      const chips: string[] = [];
+      facets.vibes.forEach((v) => chips.push(VIBE_NAMES[v] ?? v));
+      if (facets.countryOrCity.length > 0) chips.push(...facets.countryOrCity);
+      if (facets.months.length > 0) {
+        chips.push(`In ${[...facets.months].sort((a, b) => a - b).map((m) => MONTH_NAMES[m - 1]).join(", ")}`);
+      }
+      if (facets.priceMax !== undefined) chips.push(`Under €${facets.priceMax}`);
+      if (facets.priceMin !== undefined) chips.push(`Over €${facets.priceMin}`);
+      if (facets.durationMin !== undefined && facets.durationMax !== undefined) {
+        chips.push(`${facets.durationMin}–${facets.durationMax} days`);
+      }
+      if (facets.people !== undefined) chips.push(`${facets.people} travellers`);
+
+      if (chips.length === 0) {
+        facetChips.classList.add("hidden");
+        facetChips.classList.remove("flex");
+        return;
+      }
+      facetChips.classList.remove("hidden");
+      facetChips.classList.add("flex");
+      const label = document.createElement("span");
+      label.className = "inline-flex items-center text-sm text-sand-600";
+      label.textContent = "Interpreted as:";
+      facetChips.appendChild(label);
+      chips.forEach((c) => facetChips.appendChild(facetChip(c)));
+    }
+
+    function runSearch(query: string) {
+      const trimmed = query.trim();
+      const { results, facets } = search(trimmed, index);
+
+      renderFacets(facets);
+
+      let destCount = 0;
+      let pkgCount = 0;
+
+      cardEls.forEach((el) => {
+        el.hidden = true;
+        el.style.order = "";
+      });
+
+      results.forEach((r, i) => {
+        const key = `${r.item.kind}:${r.item.slug}`;
+        const el = cardEls.get(key);
+        if (!el) return;
+        el.hidden = false;
+        el.style.order = String(i);
+        if (r.item.kind === "destination") destCount += 1;
+        else pkgCount += 1;
+      });
+
+      destinationsSection.hidden = destCount === 0;
+      packagesSection.hidden = pkgCount === 0;
+
+      const total = destCount + pkgCount;
+      if (total === 0) {
+        emptyState.classList.remove("hidden");
+        emptyStateHeading.textContent = trimmed
+          ? `No matches for "${trimmed}" — try one of these vibes`
+          : "Describe your dream trip above, or try one of these vibes";
+        resultCount.textContent = trimmed ? `No results for "${trimmed}"` : "";
+      } else {
+        emptyState.classList.add("hidden");
+        resultCount.textContent = trimmed
+          ? `Showing ${total} result${total === 1 ? "" : "s"} for "${trimmed}"`
+          : `Showing ${total} result${total === 1 ? "" : "s"}`;
+      }
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get("q") ?? "";
+    refineInput.value = initialQuery;
+    runSearch(initialQuery);
+  </script>
+</BaseLayout>
