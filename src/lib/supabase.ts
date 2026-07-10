@@ -1,7 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
-const url = import.meta.env.PUBLIC_SUPABASE_URL;
-const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+// `.trim()` guards against a trailing "\r" when .env uses Windows (CRLF) line
+// endings, which would otherwise corrupt the URL/key in the browser bundle.
+const url = import.meta.env.PUBLIC_SUPABASE_URL?.trim();
+const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY?.trim();
 
 if (!url || !key) {
   throw new Error(

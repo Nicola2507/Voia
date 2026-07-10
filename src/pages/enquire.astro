@@ -407,31 +407,35 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending…";
 
-    const { supabase } = await import("../lib/supabase");
-    const { error } = await supabase.from("enquiries").insert({
-      name,
-      email,
-      trip_slug,
-      trip_title,
-      travel_from: travelFrom || null,
-      travel_to: travelTo || null,
-      adults,
-      children,
-      pets,
-      message,
-      consent: true,
-      consent_text: CONSENT_TEXT,
-    });
+    try {
+      const { supabase } = await import("../lib/supabase");
+      const { error } = await supabase.from("enquiries").insert({
+        name,
+        email,
+        trip_slug,
+        trip_title,
+        travel_from: travelFrom || null,
+        travel_to: travelTo || null,
+        adults,
+        children,
+        pets,
+        message,
+        consent: true,
+        consent_text: CONSENT_TEXT,
+      });
 
-    if (error) {
-      console.error("Enquiry insert failed:", error);
+      if (error) throw error;
+      showSuccess(name);
+    } catch (err) {
+      // Any failure — a Supabase client that couldn't initialise (e.g. missing
+      // PUBLIC_SUPABASE_* env, which needs a dev-server restart) or an insert
+      // error — must restore the button and surface the problem, never leave
+      // the form stuck on "Sending…".
+      console.error("Enquiry submit failed:", err);
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
       errorPanel.classList.remove("hidden");
       errorPanel.focus();
-      return;
     }
-
-    showSuccess(name);
   });
 </script>

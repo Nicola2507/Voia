@@ -22,7 +22,7 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
   </head>
   <body>
     <!-- Signed out: centered login card -->
-    <main id="signed-out" class="hidden min-h-screen items-center justify-center px-6 py-12 sm:px-8">
+    <main id="signed-out" class="flex min-h-screen items-center justify-center px-6 py-12 sm:px-8">
       <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-card sm:p-8">
         <h1 class="font-display text-2xl font-bold tracking-tight text-ink">Voia admin</h1>
         <p class="mt-1 text-sm text-sand-700">Sign in to view enquiries and chat transcripts.</p>
@@ -115,7 +115,12 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
 </html>
 
 <script>
-  import { supabase } from "../lib/supabase";
+  import type { SupabaseClient } from "@supabase/supabase-js";
+
+  // Assigned in initAdmin() via a guarded dynamic import, so a failed Supabase
+  // init (e.g. missing PUBLIC_SUPABASE_* env) shows the login card with an
+  // error rather than a blank page.
+  let supabase: SupabaseClient;
 
   const signedOutView = document.getElementById("signed-out") as HTMLElement;
   const signedInView = document.getElementById("signed-in") as HTMLElement;
@@ -582,19 +587,37 @@ const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
     await supabase.auth.signOut();
   });
 
-  supabase.auth.onAuthStateChange((_event, session) => {
-    if (session) {
-      showSignedIn();
-    } else {
-      showSignedOut();
+  async function initAdmin() {
+    try {
+      ({ supabase } = await import("../lib/supabase"));
+    } catch (err) {
+      // Most likely missing/!invalid PUBLIC_SUPABASE_* env (e.g. .env changed
+      // but the dev server wasn't restarted). The login card is visible by
+      // default, so show a clear message instead of a blank screen.
+      console.error(
+        "Admin: couldn't initialise Supabase. Check PUBLIC_SUPABASE_* in .env, then restart the dev server.",
+        err,
+      );
+      showLoginError("Can't reach the database — check the site configuration, then reload.");
+      loginSubmit.disabled = true;
+      return;
     }
-  });
 
-  supabase.auth.getSession().then(({ data }) => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        showSignedIn();
+      } else {
+        showSignedOut();
+      }
+    });
+
+    const { data } = await supabase.auth.getSession();
     if (data.session) {
       showSignedIn();
     } else {
       showSignedOut();
     }
-  });
+  }
+
+  initAdmin();
 </script>
