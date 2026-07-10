@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img">
+  <defs>
+    <linearGradient id="sky12" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#882C14"/>
+      <stop offset="55%" stop-color="#D2451F"/>
+      <stop offset="100%" stop-color="#FAB31E"/>
+    </linearGradient>
+    <radialGradient id="glow10" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EE5A35" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#EE5A35" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="water11" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E89A06"/>
+      <stop offset="100%" stop-color="#6A2412"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky12)"/>
+  <circle cx="890" cy="466" r="156.4" fill="url(#glow10)"/>
+  <circle cx="890" cy="466" r="46" fill="#FFC84A"/><g opacity="0.4" fill="#FF9C7E">
+    <ellipse cx="420" cy="190" rx="70" ry="22"/>
+    <ellipse cx="475" cy="180" rx="46" ry="18"/>
+    <ellipse cx="370" cy="184" rx="40" ry="16"/>
+  </g><path d="M0,1000 L0,560 L0,600 L420,520 L900,560 L1600,500 L1600,560 L1600,1000 Z" fill="#882C14" opacity="0.55"/><rect x="0" y="640" width="1600" height="360" fill="url(#water11)"/><rect x="200" y="680" width="120" height="4" rx="2" fill="#E89A06" opacity="0.18"/><rect x="540" y="733.3333333333334" width="180" height="4" rx="2" fill="#E89A06" opacity="0.28"/><rect x="880" y="786.6666666666666" width="240" height="4" rx="2" fill="#E89A06" opacity="0.18"/><rect x="1220" y="840" width="120" height="4" rx="2" fill="#E89A06" opacity="0.28"/><rect x="360" y="893.3333333333334" width="180" height="4" rx="2" fill="#E89A06" opacity="0.18"/><rect x="700" y="946.6666666666667" width="240" height="4" rx="2" fill="#E89A06" opacity="0.28"/><path d="M0,660 L0,560 Q500,500 900,600 Q1250,660 1600,600 L1600,700 Q1000,760 600,700 Q300,660 0,660Z" fill="#2A201B"/><rect x="340" y="540.5" width="70" height="59.5" fill="#FFFFFF"/><rect x="337" y="532.5" width="76" height="10" fill="#FFFFFF"/><rect x="359.6" y="570.25" width="12.6" height="19.04" fill="#11645E" opacity="0.8"/><rect x="430" y="534" width="60" height="51" fill="#FFFFFF"/><circle cx="460" cy="534" r="25.2" fill="#11645E"/><rect x="446.8" y="559.5" width="10.799999999999999" height="16.32" fill="#11645E" opacity="0.8"/><rect x="510" y="543.9" width="66" height="56.1" fill="#FFFFFF"/><rect x="507" y="535.9" width="72" height="10" fill="#FFFFFF"/><rect x="528.48" y="571.95" width="11.879999999999999" height="17.952" fill="#11645E" opacity="0.8"/><rect x="610" y="528.7" width="58" height="49.3" fill="#FFFFFF"/><circle cx="639" cy="528.7" r="24.36" fill="#11645E"/><rect x="626.24" y="553.35" width="10.44" height="15.776" fill="#11645E" opacity="0.8"/><rect x="700" y="534.8" width="72" height="61.199999999999996" fill="#FFFFFF"/><rect x="697" y="526.8" width="78" height="10" fill="#FFFFFF"/><rect x="720.16" y="565.4" width="12.959999999999999" height="19.584" fill="#11645E" opacity="0.8"/><rect x="800" y="529" width="60" height="51" fill="#FFFFFF"/><circle cx="830" cy="529" r="25.2" fill="#11645E"/><rect x="816.8" y="554.5" width="10.799999999999999" height="16.32" fill="#11645E" opacity="0.8"/><rect x="900" y="549.6" width="64" height="54.4" fill="#FFFFFF"/><rect x="897" y="541.6" width="70" height="10" fill="#FFFFFF"/><rect x="917.92" y="576.8" width="11.52" height="17.408" fill="#11645E" opacity="0.8"/><rect x="990" y="536.7" width="58" height="49.3" fill="#FFFFFF"/><circle cx="1019" cy="536.7" r="24.36" fill="#11645E"/><rect x="1006.24" y="561.35" width="10.44" height="15.776" fill="#11645E" opacity="0.8"/><rect x="1080" y="540.5" width="70" height="59.5" fill="#FFFFFF"/><rect x="1077" y="532.5" width="76" height="10" fill="#FFFFFF"/><rect x="1099.6" y="570.25" width="12.6" height="19.04" fill="#11645E" opacity="0.8"/><rect x="1170" y="531" width="60" height="51" fill="#FFFFFF"/><circle cx="1200" cy="531" r="25.2" fill="#11645E"/><rect x="1186.8" y="556.5" width="10.799999999999999" height="16.32" fill="#11645E" opacity="0.8"/><rect x="1260" y="541.9" width="66" height="56.1" fill="#FFFFFF"/><rect x="1257" y="533.9" width="72" height="10" fill="#FFFFFF"/><rect x="1278.48" y="569.95" width="11.879999999999999" height="17.952" fill="#11645E" opacity="0.8"/>
+</svg>

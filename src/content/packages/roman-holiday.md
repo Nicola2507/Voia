@@ -8,6 +8,10 @@ priceTo: 780
 currency: "EUR"
 priceBasis: "flights-hotel"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/rome.svg"
+heroImageAlt: "Illustrated poster of Rome — a domed and arched skyline over the Colosseum at sunset."
+seasonMonths: [3, 4, 5, 9, 10, 11]
+activities: ["Sightseeing", "Museums", "Food"]
 tagline: "Four days, three thousand years, endless pasta."
 greatFor: ["City lovers", "Culture seekers"]
 featured: false

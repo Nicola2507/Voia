@@ -20,6 +20,8 @@ const {
   priceBasis,
   priceIsPlaceholder,
   greatFor,
+  heroImage,
+  heroImageAlt,
 } = pkg.data;
 
 const tints = [
@@ -36,32 +38,59 @@ const shownGreatFor = greatFor.slice(0, 2);
   href={`/packages/${pkg.id}`}
   aria-label={`${title} — view trip`}
   data-vibes={vibes.join(" ")}
-  class={`group flex flex-col justify-between rounded-2xl ${tint.bg} p-4 shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
+  class={`group relative flex flex-col justify-between overflow-hidden rounded-2xl ${heroImage ? "" : tint.bg} p-4 shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:hover:translate-y-0`}
 >
-  <div>
-    <span class="inline-flex rounded-full bg-white px-2.5 py-1 text-xs font-medium text-sand-700">
+  {
+    heroImage && (
+      <>
+        <img
+          src={heroImage}
+          alt={heroImageAlt ?? ""}
+          loading="lazy"
+          decoding="async"
+          width="1600"
+          height="1000"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent" />
+      </>
+    )
+  }
+  <div class="relative">
+    <span
+      class={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+        heroImage ? "bg-white/20 text-white backdrop-blur-sm" : "bg-white text-sand-700"
+      }`}
+    >
       {durationDays} days
     </span>
-    <h3 class={`mt-3 font-display text-xl font-semibold tracking-tight ${tint.title}`}>
+    <h3
+      class={`mt-3 font-display text-xl font-semibold tracking-tight ${
+        heroImage ? "text-white" : tint.title
+      }`}
+    >
       {title}
     </h3>
-    <p class={`mt-1 text-sm ${tint.body}`}>{tagline}</p>
+    <p class={`mt-1 text-sm ${heroImage ? "text-white/90" : tint.body}`}>{tagline}</p>
     <div class="mt-2 flex flex-wrap gap-1.5">
-      {shownVibes.map((v) => <VibePill slug={v} />)}
+      {shownVibes.map((v) => <VibePill slug={v} class={heroImage ? "bg-white/20 text-white" : ""} />)}
     </div>
     {
       shownGreatFor.length > 0 && (
-        <p class="mt-2 text-xs text-sand-600">Great for: {shownGreatFor.join(", ")}</p>
+        <p class={`mt-2 text-xs ${heroImage ? "text-white/80" : "text-sand-600"}`}>
+          Great for: {shownGreatFor.join(", ")}
+        </p>
       )
     }
   </div>
-  <div class="mt-4">
+  <div class="relative mt-4">
     <PriceTag
       priceFrom={priceFrom}
       priceTo={priceTo}
       currency={currency}
       priceBasis={priceBasis}
       priceIsPlaceholder={priceIsPlaceholder}
+      light={!!heroImage}
     />
   </div>
 </a>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img">
+  <defs>
+    <linearGradient id="sky56" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#882C14"/>
+      <stop offset="55%" stop-color="#D2451F"/>
+      <stop offset="100%" stop-color="#FAB31E"/>
+    </linearGradient>
+    <radialGradient id="glow55" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EE5A35" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#EE5A35" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky56)"/>
+  <circle cx="1260" cy="260" r="136" fill="url(#glow55)"/>
+  <circle cx="1260" cy="260" r="40" fill="#FFC84A"/><path d="M0,1000 L0,440 L0,540 L300,320 L700,260 L1050,360 L1400,280 L1600,440 L1600,440 L1600,1000 Z" fill="#882C14" opacity="0.55"/><path d="M0,1000 L0,560 L0,620 L500,480 L1600,560 L1600,560 L1600,1000 Z" fill="#6A2412" opacity="0.6"/><g fill="#2A201B">
+    <polygon points="150,789 116.19999999999999,841.78 183.8,841.78"/>
+    <polygon points="150,823.58 122.96,870.9 177.04000000000002,870.9"/>
+    <polygon points="150,852.7 128.03,880 171.97,880"/>
+    <rect x="144.8" y="872.2" width="10.4" height="13"/>
+  </g><g fill="#2A201B">
+    <polygon points="240,850 214,890.6 266,890.6"/>
+    <polygon points="240,876.6 219.2,913 260.8,913"/>
+    <polygon points="240,899 223.1,920 256.9,920"/>
+    <rect x="236" y="914" width="8" height="10"/>
+  </g><g>
+    <rect x="560" y="670" width="90" height="150" fill="#2A201B"/>
+    <polygon points="555,674 605,589 655,674" fill="#6A2412"/>
+  </g><g>
+    <rect x="660" y="700" width="70" height="120" fill="#2A201B"/>
+    <polygon points="655,704 695,637 735,704" fill="#6A2412"/>
+  </g><g>
+    <rect x="740" y="640" width="100" height="180" fill="#2A201B"/>
+    <polygon points="735,644 790,550 845,644" fill="#6A2412"/>
+  </g><g>
+    <rect x="860" y="690" width="74" height="130" fill="#2A201B"/>
+    <polygon points="855,694 897,623.4 939,694" fill="#6A2412"/>
+  </g><g>
+    <rect x="950" y="660" width="90" height="160" fill="#2A201B"/>
+    <polygon points="945,664 995,579 1045,664" fill="#6A2412"/>
+  </g><g>
+    <rect x="1050" y="700" width="70" height="120" fill="#2A201B"/>
+    <polygon points="1045,704 1085,637 1125,704" fill="#6A2412"/>
+  </g><g>
+    <rect x="790" y="560" width="56" height="260" fill="#2A201B"/>
+    <polygon points="785,564 818,509.6 851,564" fill="#6A2412"/>
+  </g><g fill="#2A201B">
+    <polygon points="1360,816 1328.8,864.72 1391.2,864.72"/>
+    <polygon points="1360,847.92 1335.04,891.6 1384.96,891.6"/>
+    <polygon points="1360,874.8 1339.72,900 1380.28,900"/>
+    <rect x="1355.2" y="892.8" width="9.6" height="12"/>
+  </g><g fill="#2A201B">
+    <polygon points="1450,867 1426.6,903.54 1473.4,903.54"/>
+    <polygon points="1450,890.94 1431.28,923.7 1468.72,923.7"/>
+    <polygon points="1450,911.1 1434.79,930 1465.21,930"/>
+    <rect x="1446.4" y="924.6" width="7.2" height="9"/>
+  </g>
+</svg>

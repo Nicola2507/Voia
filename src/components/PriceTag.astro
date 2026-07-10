@@ -5,6 +5,7 @@ interface Props {
   currency: string;
   priceBasis: "land-only" | "flights-hotel";
   priceIsPlaceholder: boolean;
+  light?: boolean;
   class?: string;
 }
 
@@ -14,6 +15,7 @@ const {
   currency,
   priceBasis,
   priceIsPlaceholder,
+  light = false,
   class: className,
 } = Astro.props;
 
@@ -22,9 +24,9 @@ const symbol = symbols[currency] ?? `${currency} `;
 const basisLabel = priceBasis === "land-only" ? "land only" : "flights + hotel";
 ---
 <div class:list={["flex flex-col gap-1.5", className]}>
-  <p class="font-display text-lg font-semibold text-ink">
+  <p class={`font-display text-lg font-semibold ${light ? "text-white" : "text-ink"}`}>
     from {symbol}{priceFrom}–{symbol}{priceTo}
-    <span class="font-sans text-sm font-normal text-sand-600">({basisLabel})</span>
+    <span class={`font-sans text-sm font-normal ${light ? "text-white/80" : "text-sand-600"}`}>({basisLabel})</span>
   </p>
   {
     priceIsPlaceholder && (

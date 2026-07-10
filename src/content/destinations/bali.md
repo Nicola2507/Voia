@@ -5,6 +5,15 @@ countryFlag: "🇮🇩"
 region: "international"
 vibes: ["beach", "relaxation-wellness", "nature-landscapes", "adventure"]
 bestSeason: "Dry season (roughly Apr–Oct)"
+seasonMonths: [4, 5, 6, 7, 8, 9, 10]
+city: "Ubud"
+activities: ["Beaches", "Surfing", "Yoga & wellness", "Volcano hikes", "Temples", "Rice terraces"]
+heroImage: "/images/destinations/bali.svg"
+heroImageAlt: "Illustrated poster of Bali — rice terraces, palms, and a volcano."
+gallery:
+  - { src: "/images/destinations/bali-1.svg", alt: "Bali rice terraces at dawn, illustrated." }
+  - { src: "/images/destinations/bali-2.svg", alt: "A Balinese clifftop temple above the sea, illustrated." }
+  - { src: "/images/destinations/bali-3.svg", alt: "Bali beach and palms at dusk, illustrated." }
 tagline: "Warm in winter, in every sense."
 highlights:
   - "Rice terraces around Ubud and Tegallalang"

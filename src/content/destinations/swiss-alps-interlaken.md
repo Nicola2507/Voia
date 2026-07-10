@@ -5,6 +5,15 @@ countryFlag: "🇨🇭"
 region: "international"
 vibes: ["mountain", "adventure", "nature-landscapes"]
 bestSeason: "Summer (hiking) & winter (snow)"
+seasonMonths: [1, 2, 6, 7, 8, 9, 12]
+city: "Interlaken"
+activities: ["Hiking", "Paragliding", "Scenic rail", "Lakes"]
+heroImage: "/images/destinations/swiss-alps-interlaken.svg"
+heroImageAlt: "Illustrated poster of the Swiss Alps — snow peaks above a turquoise lake."
+gallery:
+  - { src: "/images/destinations/swiss-alps-interlaken-1.svg", alt: "Alpine peaks at dawn, illustrated." }
+  - { src: "/images/destinations/swiss-alps-interlaken-2.svg", alt: "Turquoise lake below the mountains by day, illustrated." }
+  - { src: "/images/destinations/swiss-alps-interlaken-3.svg", alt: "Snow peaks under evening light, illustrated." }
 tagline: "Big mountains, bluer lakes, and a serious rush."
 highlights:
   - "Two turquoise lakes, with Interlaken between them"

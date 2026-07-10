@@ -5,6 +5,15 @@ countryFlag: "🇷🇴"
 region: "romania"
 vibes: ["city-break", "historical-monuments", "adventure", "mountain"]
 bestSeason: "Late spring–autumn (the mountain road closes in winter)"
+seasonMonths: [5, 6, 7, 8, 9, 10]
+city: "Sibiu"
+activities: ["Old-town wandering", "Scenic driving", "Mountain hikes", "Culture"]
+heroImage: "/images/destinations/sibiu-transfagarasan.svg"
+heroImageAlt: "Illustrated poster of Sibiu — Saxon rooftops beside a winding mountain road."
+gallery:
+  - { src: "/images/destinations/sibiu-transfagarasan-1.svg", alt: "Făgăraș mountains at dawn, illustrated." }
+  - { src: "/images/destinations/sibiu-transfagarasan-2.svg", alt: "Sibiu's Saxon squares by day, illustrated." }
+  - { src: "/images/destinations/sibiu-transfagarasan-3.svg", alt: "The Transfăgărășan road at dusk, illustrated." }
 tagline: "A Saxon old town beside a legendary mountain road."
 highlights:
   - "The Grand and Small Squares, and the famous \"eyes of Sibiu\" rooftops"

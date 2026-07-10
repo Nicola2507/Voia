@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img">
+  <defs>
+    <linearGradient id="sky26" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFC3AF"/>
+      <stop offset="55%" stop-color="#FFE3D8"/>
+      <stop offset="100%" stop-color="#FFEFC6"/>
+    </linearGradient>
+    <radialGradient id="glow24" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFEFC6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFEFC6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="water25" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F4EDE5"/>
+      <stop offset="100%" stop-color="#38B2A9"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky26)"/>
+  <circle cx="1220" cy="260" r="142.79999999999998" fill="url(#glow24)"/>
+  <circle cx="1220" cy="260" r="42" fill="#FFDD88"/><path d="M0,1000 L0,460 L0,520 L260,300 L520,430 L820,240 L1120,420 L1400,300 L1600,460 L1600,460 L1600,1000 Z" fill="#69CEC5" opacity="0.55"/><path d="M410,372 L520,240 L630,372 L564,332.4 L520,376.4 L476,332.4 Z" fill="#FFFFFF" opacity="0.92"/><path d="M690,396 L820,240 L950,396 L872,349.2 L820,401.2 L768,349.2 Z" fill="#FFFFFF" opacity="0.95"/><path d="M1300,420 L1400,300 L1500,420 L1440,384 L1400,424 L1360,384 Z" fill="#FFFFFF" opacity="0.85"/><path d="M0,1000 L0,560 L0,600 L400,480 L900,560 L1600,500 L1600,560 L1600,1000 Z" fill="#137C74" opacity="0.65"/><rect x="0" y="660" width="1600" height="340" fill="url(#water25)"/><rect x="200" y="700" width="120" height="4" rx="2" fill="#F4EDE5" opacity="0.18"/><rect x="540" y="750" width="180" height="4" rx="2" fill="#F4EDE5" opacity="0.28"/><rect x="880" y="800" width="240" height="4" rx="2" fill="#F4EDE5" opacity="0.18"/><rect x="1220" y="850" width="120" height="4" rx="2" fill="#F4EDE5" opacity="0.28"/><rect x="360" y="900" width="180" height="4" rx="2" fill="#F4EDE5" opacity="0.18"/><rect x="700" y="950" width="240" height="4" rx="2" fill="#F4EDE5" opacity="0.28"/><g fill="#114F4B">
+    <polygon points="270,802 233.6,858.84 306.4,858.84"/>
+    <polygon points="270,839.24 240.88,890.2 299.12,890.2"/>
+    <polygon points="270,870.6 246.34,900 293.66,900"/>
+    <rect x="264.4" y="891.6" width="11.2" height="14"/>
+  </g><g fill="#114F4B">
+    <polygon points="350,843 321.4,887.66 378.6,887.66"/>
+    <polygon points="350,872.26 327.12,912.3 372.88,912.3"/>
+    <polygon points="350,896.9 331.41,920 368.59,920"/>
+    <rect x="345.6" y="913.4" width="8.8" height="11"/>
+  </g><g fill="#114F4B">
+    <polygon points="1280,809 1246.2,861.78 1313.8,861.78"/>
+    <polygon points="1280,843.58 1252.96,890.9 1307.04,890.9"/>
+    <polygon points="1280,872.7 1258.03,900 1301.97,900"/>
+    <rect x="1274.8" y="892.2" width="10.4" height="13"/>
+  </g><g fill="#114F4B">
+    <polygon points="1360,860 1334,900.6 1386,900.6"/>
+    <polygon points="1360,886.6 1339.2,923 1380.8,923"/>
+    <polygon points="1360,909 1343.1,930 1376.9,930"/>
+    <rect x="1356" y="924" width="8" height="10"/>
+  </g>
+</svg>

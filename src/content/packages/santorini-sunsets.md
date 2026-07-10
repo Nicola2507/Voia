@@ -8,6 +8,10 @@ priceTo: 1150
 currency: "EUR"
 priceBasis: "flights-hotel"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/santorini.svg"
+heroImageAlt: "Illustrated poster of Santorini — white houses and blue domes above the caldera at sunset."
+seasonMonths: [5, 6, 7, 8, 9, 10]
+activities: ["Sunsets", "Beaches", "Wine tasting"]
 tagline: "Six days of caldera views and slow romance."
 greatFor: ["Couples", "A romantic milestone"]
 featured: true

@@ -32,6 +32,10 @@ const shownVibes = vibes.slice(0, 2);
         <img
           src={heroImage}
           alt={heroImageAlt ?? ""}
+          loading="lazy"
+          decoding="async"
+          width="1600"
+          height="1000"
           class="absolute inset-0 h-full w-full object-cover"
         />
         <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent" />

@@ -8,6 +8,10 @@ priceTo: 1800
 currency: "EUR"
 priceBasis: "flights-hotel"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/bali.svg"
+heroImageAlt: "Illustrated poster of Bali — terraced rice fields, a volcano, and palms at sunset."
+seasonMonths: [4, 5, 6, 7, 8, 9, 10]
+activities: ["Beaches", "Yoga & wellness", "Volcano hike", "Temples"]
 tagline: "Eight days of warmth when home is at its coldest."
 greatFor: ["Wellness travellers", "The \"warm in winter\" splurge"]
 featured: true

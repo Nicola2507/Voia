@@ -5,6 +5,15 @@ countryFlag: "🇮🇹"
 region: "international"
 vibes: ["city-break", "historical-monuments", "tourist-attractions"]
 bestSeason: "Spring & autumn (mild, fewer crowds)"
+seasonMonths: [3, 4, 5, 9, 10, 11]
+city: "Rome"
+activities: ["Sightseeing", "Museums", "Food tours", "Ancient history"]
+heroImage: "/images/destinations/rome.svg"
+heroImageAlt: "Illustrated poster of Rome — domes and arches of the old city at golden hour."
+gallery:
+  - { src: "/images/destinations/rome-1.svg", alt: "Rome's skyline at dawn, illustrated." }
+  - { src: "/images/destinations/rome-2.svg", alt: "Ancient arches by day, illustrated." }
+  - { src: "/images/destinations/rome-3.svg", alt: "Roman domes at dusk, illustrated." }
 tagline: "Three thousand years of history, and dinner on every corner."
 highlights:
   - "The Colosseum and the Roman Forum"

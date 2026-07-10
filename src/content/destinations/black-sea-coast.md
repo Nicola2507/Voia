@@ -5,6 +5,15 @@ countryFlag: "🇷🇴"
 region: "romania"
 vibes: ["beach", "relaxation-wellness", "tourist-attractions"]
 bestSeason: "Summer (Jun–Sep)"
+seasonMonths: [6, 7, 8, 9]
+city: "Constanța"
+activities: ["Beaches", "Swimming", "Seafront nightlife", "History"]
+heroImage: "/images/destinations/black-sea-coast.svg"
+heroImageAlt: "Illustrated poster of the Black Sea coast — sandy beach, sun, and sea."
+gallery:
+  - { src: "/images/destinations/black-sea-coast-1.svg", alt: "Black Sea beach at dawn, illustrated." }
+  - { src: "/images/destinations/black-sea-coast-2.svg", alt: "Constanța's seafront by day, illustrated." }
+  - { src: "/images/destinations/black-sea-coast-3.svg", alt: "Sunset over the Black Sea, illustrated." }
 tagline: "Romania's seaside summer — sand and all."
 highlights:
   - "The long sandy strip at Mamaia"

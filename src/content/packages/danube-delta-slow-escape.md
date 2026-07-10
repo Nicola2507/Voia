@@ -8,6 +8,10 @@ priceTo: 460
 currency: "EUR"
 priceBasis: "land-only"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/danube-delta.svg"
+heroImageAlt: "Illustrated poster of the Danube Delta — reed channels, open water, and a bird at low sun."
+seasonMonths: [5, 6, 7, 8, 9, 10]
+activities: ["Boat safaris", "Birdwatching", "Fishing villages"]
 tagline: "Four slow days in Europe's wildest wetland."
 greatFor: ["Couples", "Nature lovers"]
 featured: false

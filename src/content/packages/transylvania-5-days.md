@@ -8,6 +8,10 @@ priceTo: 520
 currency: "EUR"
 priceBasis: "land-only"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/brasov-carpathians.svg"
+heroImageAlt: "Illustrated poster of Brașov — forested Carpathian peaks above a medieval old town."
+seasonMonths: [4, 5, 6, 7, 8, 9, 10]
+activities: ["Old towns", "Castles", "Mountain scenery"]
 tagline: "Castles, cobblestones, and mountains — the classic Romanian road trip."
 greatFor: ["Students", "First-timers"]
 featured: true

@@ -11,6 +11,13 @@ const destinations = defineCollection({
     region: z.enum(["romania", "international"]),
     vibes: z.array(z.enum(VIBE_SLUGS)).min(1),
     bestSeason: z.string(),
+    // Recommended months to visit (1–12). Powers the "when to go" filter and
+    // smart search. Derived from bestSeason — honest, not invented.
+    seasonMonths: z.array(z.number().int().min(1).max(12)).default([]),
+    // Nearest city / base — used by search and the detail page.
+    city: z.string().optional(),
+    // Real, well-known things to do — powers search + richer detail pages.
+    activities: z.array(z.string()).default([]),
     tagline: z.string(),
     highlights: z.array(z.string()).min(1),
     goodToKnow: z.array(z.string()).default([]),
@@ -19,6 +26,10 @@ const destinations = defineCollection({
     featured: z.boolean().default(false),
     heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
+    // Extra scene images for the destination gallery.
+    gallery: z
+      .array(z.object({ src: z.string(), alt: z.string() }))
+      .default([]),
     seoDescription: z.string().optional(),
   }),
 });
@@ -30,6 +41,9 @@ const packages = defineCollection({
     destinations: z.array(reference("destinations")).min(1),
     vibes: z.array(z.enum(VIBE_SLUGS)).min(1),
     durationDays: z.number(),
+    // Recommended months to travel (1–12) — powers the trips "when to go" filter.
+    seasonMonths: z.array(z.number().int().min(1).max(12)).default([]),
+    activities: z.array(z.string()).default([]),
     priceFrom: z.number(),
     priceTo: z.number(),
     currency: z.string().default("EUR"),

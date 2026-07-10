@@ -8,6 +8,10 @@ priceTo: 450
 currency: "EUR"
 priceBasis: "land-only"
 priceIsPlaceholder: true
+heroImage: "/images/destinations/black-sea-coast.svg"
+heroImageAlt: "Illustrated poster of the Black Sea coast — beach umbrellas, sand, and sea under a summer sun."
+seasonMonths: [6, 7, 8, 9]
+activities: ["Beaches", "Swimming", "Old town"]
 tagline: "Five easy days of sun, sand, and seaside."
 greatFor: ["Families", "Friend groups"]
 featured: false

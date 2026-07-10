@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img">
+  <defs>
+    <linearGradient id="sky71" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#11645E"/>
+      <stop offset="55%" stop-color="#FA7551"/>
+      <stop offset="100%" stop-color="#FAB31E"/>
+    </linearGradient>
+    <radialGradient id="glow69" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FA7551" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FA7551" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="water70" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EE5A35"/>
+      <stop offset="100%" stop-color="#114F4B"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky71)"/>
+  <circle cx="500" cy="340" r="163.2" fill="url(#glow69)"/>
+  <circle cx="500" cy="340" r="48" fill="#FFC84A"/><rect x="0" y="560" width="1600" height="440" fill="url(#water70)"/><rect x="200" y="600" width="120" height="4" rx="2" fill="#EE5A35" opacity="0.18"/><rect x="540" y="666.6666666666666" width="180" height="4" rx="2" fill="#EE5A35" opacity="0.28"/><rect x="880" y="733.3333333333334" width="240" height="4" rx="2" fill="#EE5A35" opacity="0.18"/><rect x="1220" y="800" width="120" height="4" rx="2" fill="#EE5A35" opacity="0.28"/><rect x="360" y="866.6666666666667" width="180" height="4" rx="2" fill="#EE5A35" opacity="0.18"/><rect x="700" y="933.3333333333334" width="240" height="4" rx="2" fill="#EE5A35" opacity="0.28"/><path d="M0,1000 L0,710 Q480,660 800,680 Q1200,700 1600,670 L1600,1000 Z" fill="#E8DCCF"/><rect x="0" y="700" width="1600" height="300" fill="#F4EDE5"/><g>
+    <rect x="555.2" y="722.8" width="9.6" height="151.2" fill="#AC3717"/>
+    <path d="M452,722.8 A108,64.8 0 0 1 668,722.8 Z" fill="#2A201B"/>
+    <path d="M452,722.8 A108,64.8 0 0 1 560,679.6 A108,64.8 0 0 1 668,722.8 Z" fill="#2A201B" opacity="0.85"/>
+  </g><g>
+    <rect x="756.4" y="787.1" width="7.2" height="113.39999999999999" fill="#2A201B"/>
+    <path d="M679,787.1 A81,48.6 0 0 1 841,787.1 Z" fill="#AC3717"/>
+    <path d="M679,787.1 A81,48.6 0 0 1 760,754.7 A81,48.6 0 0 1 841,787.1 Z" fill="#AC3717" opacity="0.85"/>
+  </g><g>
+    <rect x="1015.8" y="744.95" width="8.4" height="132.29999999999998" fill="#AC3717"/>
+    <path d="M925.5,744.95 A94.5,56.699999999999996 0 0 1 1114.5,744.95 Z" fill="#2A201B"/>
+    <path d="M925.5,744.95 A94.5,56.699999999999996 0 0 1 1020,707.15 A94.5,56.699999999999996 0 0 1 1114.5,744.95 Z" fill="#2A201B" opacity="0.85"/>
+  </g>
+</svg>

@@ -5,6 +5,15 @@ countryFlag: "🇷🇴"
 region: "romania"
 vibes: ["mountain", "city-break", "historical-monuments", "adventure"]
 bestSeason: "Year-round — snow in winter, hiking in summer"
+seasonMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+city: "Brașov"
+activities: ["Old-town wandering", "Hiking", "Castle visits", "Cable car"]
+heroImage: "/images/destinations/brasov-carpathians.svg"
+heroImageAlt: "Illustrated poster of Brașov — medieval towers below forested Carpathian peaks."
+gallery:
+  - { src: "/images/destinations/brasov-carpathians-1.svg", alt: "Carpathian peaks at dawn, illustrated." }
+  - { src: "/images/destinations/brasov-carpathians-2.svg", alt: "Brașov's medieval old town by day, illustrated." }
+  - { src: "/images/destinations/brasov-carpathians-3.svg", alt: "The Carpathians under evening light, illustrated." }
 tagline: "Fairy-tale streets with the mountains right there."
 highlights:
   - "Council Square (Piața Sfatului) and the Gothic Black Church"

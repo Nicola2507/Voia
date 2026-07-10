@@ -2,6 +2,8 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PackageCard from "../../components/PackageCard.astro";
 import VibePill from "../../components/VibePill.astro";
+import DestinationGallery from "../../components/DestinationGallery.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import { VIBES } from "../../data/vibes";
 
@@ -27,6 +29,7 @@ const {
   goodToKnow,
   heroImage,
   heroImageAlt,
+  gallery,
   seoDescription,
   package: packageRef,
 } = entry.data;
@@ -36,9 +39,9 @@ const linkedPackage = packageRef ? await getEntry(packageRef) : undefined;
 const gradient =
   region === "romania" ? "from-teal-500 to-coral-500" : "from-coral-500 to-amber-400";
 
-const destinationEnquiryHref = `/contact?trip=${encodeURIComponent(entry.id)}&title=${encodeURIComponent(title)}`;
+const destinationEnquiryHref = `/enquire?trip=${encodeURIComponent(entry.id)}&title=${encodeURIComponent(title)}`;
 const packageEnquiryHref = linkedPackage
-  ? `/contact?trip=${encodeURIComponent(linkedPackage.id)}&title=${encodeURIComponent(linkedPackage.data.title)}`
+  ? `/enquire?trip=${encodeURIComponent(linkedPackage.id)}&title=${encodeURIComponent(linkedPackage.data.title)}`
   : undefined;
 
 const destinationJsonLd = {
@@ -71,6 +74,10 @@ const destinationJsonLd = {
                 <img
                   src={heroImage}
                   alt={heroImageAlt ?? ""}
+                  loading="lazy"
+                  decoding="async"
+                  width="1600"
+                  height="1000"
                   class="absolute inset-0 h-full w-full object-cover"
                 />
                 <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent" />
@@ -171,6 +178,17 @@ const destinationJsonLd = {
         )
       }
 
+      {
+        gallery.length > 0 && (
+          <section class="mx-auto max-w-5xl px-6 pt-8 sm:px-8">
+            <h2 class="font-display text-2xl font-semibold tracking-tight text-ink">Gallery</h2>
+            <div class="mt-4">
+              <DestinationGallery gallery={gallery} />
+            </div>
+          </section>
+        )
+      }
+
       <section class="mx-auto max-w-5xl px-6 pt-10 sm:px-8">
         <h2 class="font-display text-2xl font-semibold tracking-tight text-ink">
           Trips you can book here
@@ -220,17 +238,5 @@ const destinationJsonLd = {
       </section>
     </main>
 
-    <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
-      <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
-      <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
-      <nav aria-label="Footer" class="mt-3 flex flex-wrap items-center justify-center gap-x-1">
-        <a href="/about" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-          About
-        </a>
-        <a href="/contact" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-          Contact
-        </a>
-      </nav>
-      <p class="mt-1 text-xs text-sand-600">A university project.</p>
-    </footer>
+    <SiteFooter />
 </BaseLayout>

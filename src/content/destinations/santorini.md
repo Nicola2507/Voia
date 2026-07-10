@@ -5,6 +5,15 @@ countryFlag: "🇬🇷"
 region: "international"
 vibes: ["beach", "relaxation-wellness", "tourist-attractions"]
 bestSeason: "Late spring–early autumn"
+seasonMonths: [5, 6, 7, 8, 9, 10]
+city: "Fira"
+activities: ["Beaches", "Sunsets", "Wine tasting", "Village wandering"]
+heroImage: "/images/destinations/santorini.svg"
+heroImageAlt: "Illustrated poster of Santorini — white houses and blue domes above the caldera at sunset."
+gallery:
+  - { src: "/images/destinations/santorini-1.svg", alt: "Santorini caldera at dawn, illustrated." }
+  - { src: "/images/destinations/santorini-2.svg", alt: "White-and-blue village by day, illustrated." }
+  - { src: "/images/destinations/santorini-3.svg", alt: "The famous Santorini sunset, illustrated." }
 tagline: "The white-and-blue one — and yes, those sunsets."
 highlights:
   - "Caldera-edge villages of Oia and Fira"

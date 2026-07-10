@@ -5,6 +5,15 @@ countryFlag: "🇷🇴"
 region: "romania"
 vibes: ["nature-landscapes", "adventure", "relaxation-wellness"]
 bestSeason: "Late spring–early autumn"
+seasonMonths: [5, 6, 7, 8, 9, 10]
+city: "Tulcea"
+activities: ["Boat safaris", "Birdwatching", "Fishing villages", "Sunrises"]
+heroImage: "/images/destinations/danube-delta.svg"
+heroImageAlt: "Illustrated poster of the Danube Delta — reed channels, water, and a bird at low sun."
+gallery:
+  - { src: "/images/destinations/danube-delta-1.svg", alt: "Delta channels at dawn, illustrated." }
+  - { src: "/images/destinations/danube-delta-2.svg", alt: "Reedbeds and open water by day, illustrated." }
+  - { src: "/images/destinations/danube-delta-3.svg", alt: "Delta sunset over the reeds, illustrated." }
 tagline: "Europe's wildest quiet, explored by boat."
 highlights:
   - "Boat safaris through reed channels and lily-covered lakes"
