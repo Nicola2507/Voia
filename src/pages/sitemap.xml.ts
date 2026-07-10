@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { VIBE_SLUGS } from "../data/vibes";
 
-const STATIC_PATHS = ["/", "/about", "/contact", "/destinations", "/packages", "/privacy"];
+const STATIC_PATHS = ["/", "/about", "/contact", "/enquire", "/search", "/destinations", "/packages", "/privacy"];
 
 export const GET: APIRoute = async ({ site }) => {
   const destinations = await getCollection("destinations");

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteFooter from "../components/SiteFooter.astro";
 
 const sectionHeading = "font-display text-xl font-semibold tracking-tight text-ink";
 ---
@@ -69,7 +70,7 @@ const sectionHeading = "font-display text-xl font-semibold tracking-tight text-i
         </p>
         <p class="mt-2 text-base leading-relaxed text-ink">
           Please don't type personal details into the chat — for booking or anything personal, use our{" "}
-          <a href="/contact" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">enquiry form</a>{" "}
+          <a href="/enquire" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">enquiry form</a>{" "}
           instead. We keep these anonymous transcripts for up to about a month and then delete them; our
           lawful basis is our legitimate interest in improving the service. As with enquiries, the website
           itself can only add new transcripts — it can never read them back.
@@ -99,17 +100,5 @@ const sectionHeading = "font-display text-xl font-semibold tracking-tight text-i
     </section>
   </main>
 
-  <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
-    <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
-    <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
-    <nav aria-label="Footer" class="mt-3 flex flex-wrap items-center justify-center gap-x-1">
-      <a href="/about" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-        About
-      </a>
-      <a href="/contact" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-        Contact
-      </a>
-    </nav>
-    <p class="mt-1 text-xs text-sand-600">A university project.</p>
-  </footer>
+  <SiteFooter />
 </BaseLayout>

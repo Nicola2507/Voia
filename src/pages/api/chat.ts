@@ -40,12 +40,15 @@ async function buildSystemInstruction(): Promise<string> {
 
   const destinationLines = destinations.map((d) => {
     const hasPackage = d.data.package ? "yes" : "no";
-    return `- ${d.data.title} (${d.data.country}) — vibes: ${d.data.vibes.join(", ")}; best season: ${d.data.bestSeason}; "${d.data.tagline}"; bookable package: ${hasPackage}`;
+    const city = d.data.city ? `${d.data.city}, ` : "";
+    const activities = d.data.activities.length > 0 ? `; activities: ${d.data.activities.join(", ")}` : "";
+    return `- ${d.data.title} (${city}${d.data.country}) — vibes: ${d.data.vibes.join(", ")}; best season: ${d.data.bestSeason}${activities}; "${d.data.tagline}"; bookable package: ${hasPackage}`;
   });
 
   const packageLines = packages.map((p) => {
     const basedOn = p.data.destinations.map((ref) => ref.id).join(", ");
-    return `- ${p.data.title} — based on: ${basedOn}; vibes: ${p.data.vibes.join(", ")}; ${p.data.durationDays} days; €${p.data.priceFrom}–€${p.data.priceTo} ${p.data.currency} (${p.data.priceBasis}, indicative placeholder — not a real quote); great for: ${p.data.greatFor.join(", ")}; highlights: ${p.data.highlights.slice(0, 3).join("; ")}`;
+    const activities = p.data.activities.length > 0 ? `; activities: ${p.data.activities.join(", ")}` : "";
+    return `- ${p.data.title} — based on: ${basedOn}; vibes: ${p.data.vibes.join(", ")}; ${p.data.durationDays} days; €${p.data.priceFrom}–€${p.data.priceTo} ${p.data.currency} (${p.data.priceBasis}, indicative placeholder — not a real quote); great for: ${p.data.greatFor.join(", ")}${activities}; highlights: ${p.data.highlights.slice(0, 3).join("; ")}`;
   });
 
   return `You are the Voia guide — a warm, well-travelled friend helping people find a trip, in Voia's brand voice.
@@ -66,10 +69,14 @@ ${destinationLines.join("\n")}
 PACKAGES:
 ${packageLines.join("\n")}
 
+ROUTING (send people to the right page)
+- Booking a trip, sending an enquiry, or giving personal details → point them to /enquire.
+- General questions, support, partnerships, or anything not about a specific trip → point them to /contact.
+
 GUARDRAILS (follow strictly)
 - Only discuss this catalog and closely related general travel help (packing, seasons, general trip advice). If asked about anything else, or a place not in this catalog, briefly say it's outside what you can help with and suggest /contact for anything specific.
 - Never invent or state a firm price, hotel name, opening hour, or itinerary detail beyond what's given above. All prices here are indicative placeholders — always describe them that way, never as final.
-- Never ask for or store personal details (name, email, phone, etc.). If someone wants to book or enquire, point them to the /contact page — do not collect their information yourself.
+- Never ask for or store personal details (name, email, phone, etc.). If someone wants to book or enquire, point them to the /enquire page — do not collect their information yourself.
 - If you're unsure about something, say so briefly rather than guessing, and point to /contact.
 - Do not roleplay as a human, do not claim to make bookings, and do not discuss anything unrelated to travel.`;
 }

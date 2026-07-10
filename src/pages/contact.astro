@@ -1,40 +1,42 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
-
-const packages = (await getCollection("packages")).sort((a, b) =>
-  a.data.title.localeCompare(b.data.title),
-);
-const destinations = (await getCollection("destinations")).sort((a, b) =>
-  a.data.title.localeCompare(b.data.title),
-);
+import SiteFooter from "../components/SiteFooter.astro";
 
 const inputClass =
   "w-full min-h-11 rounded-lg border border-sand-500 bg-white px-3.5 text-base text-ink placeholder:text-sand-600 transition focus:border-coral-500 focus:outline-none focus:ring-2 focus:ring-coral-500/40";
 const labelClass = "block text-sm font-medium text-sand-700 mb-1.5";
 const helpClass = "mt-1.5 text-sm text-sand-600";
 const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
+const CONTACT_EMAIL = "alexandrugabrielnicola8@gmail.com";
 ---
 <BaseLayout
   title="Contact — Voia"
-  description="Tell us about your trip and we'll take it from here — send Voia your travel enquiry and we'll follow up by email."
+  description="General questions, support, or partnerships — get in touch with Voia. For trip enquiries and bookings, see our Enquire page instead."
 >
   <main id="main-content" class="flex-1">
     <section class="mx-auto max-w-2xl px-6 pt-8 sm:px-8">
       <h1 class="font-display text-3xl font-bold tracking-tight text-ink md:text-4xl">Contact</h1>
       <p class="mt-2 max-w-prose text-lg text-sand-700">
-        Tell us about your trip and we'll take it from here.
+        General questions, support, or partnerships — we'd love to hear from you.
+      </p>
+      <p class="mt-2 max-w-prose text-sm text-sand-600">
+        Planning a trip and ready to book?{" "}
+        <a href="/enquire" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">
+          Send a trip enquiry
+        </a>{" "}
+        instead — it gets you to the right place faster.
       </p>
     </section>
 
     <section class="mx-auto max-w-2xl px-6 py-8 sm:px-8">
       <noscript>
         <div class="mb-6 rounded-2xl bg-amber-50 p-4 text-sm text-amber-800">
-          This form needs JavaScript to send your enquiry. Please enable JavaScript, or reach us another way.
+          This form needs JavaScript to send your message. Please enable JavaScript, or email us directly at{" "}
+          <a href={`mailto:${CONTACT_EMAIL}`} class="font-medium underline">{CONTACT_EMAIL}</a>.
         </div>
       </noscript>
 
-      <form id="enquiry-form" novalidate class="space-y-6">
+      <form id="contact-form" novalidate class="space-y-6">
         <!-- Honeypot: real users never see or fill this -->
         <div class="sr-only">
           <label for="company">Leave this field empty</label>
@@ -50,7 +52,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
 
         <div>
           <label for="name" class={labelClass}>
-            Your name <span class="font-normal text-sand-600">(required)</span>
+            Full name <span class="font-normal text-sand-600">(required)</span>
           </label>
           <input id="name" name="name" type="text" required autocomplete="name" aria-describedby="name-error" class={inputClass} />
           <p id="name-error" class={errorClass} role="alert">
@@ -66,7 +68,7 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
             Email <span class="font-normal text-sand-600">(required)</span>
           </label>
           <input id="email" name="email" type="email" required autocomplete="email" aria-describedby="email-help email-error" class={inputClass} />
-          <p id="email-help" class={helpClass}>We'll only use this to reply to your enquiry.</p>
+          <p id="email-help" class={helpClass}>We'll only use this to reply to you.</p>
           <p id="email-error" class={errorClass} role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 h-4 w-4 shrink-0">
               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
@@ -75,82 +77,30 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
           </p>
         </div>
 
-        <div id="trip-context">
-          <div id="trip-prefilled" class="hidden rounded-lg border border-sand-200 bg-sand-100 px-3.5 py-3">
-            <p class="text-sm text-sand-700">
-              You're enquiring about: <strong id="trip-prefilled-title" class="text-ink"></strong>
-            </p>
-            <button
-              type="button"
-              id="trip-change-btn"
-              class="mt-1 inline-flex min-h-8 items-center rounded-md text-sm font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
-            >
-              Change
-            </button>
-            <input type="hidden" id="trip_slug_hidden" value="" />
-            <input type="hidden" id="trip_title_hidden" value="" />
-          </div>
-
-          <div id="trip-select-wrap">
-            <label for="trip_select" class={labelClass}>Interested in (trip or destination)</label>
-            <select id="trip_select" class={inputClass}>
-              <option value="" data-title="">Not sure yet / general enquiry</option>
-              <optgroup label="Trips">
-                {packages.map((p) => (
-                  <option value={p.id} data-title={p.data.title}>{p.data.title}</option>
-                ))}
-              </optgroup>
-              <optgroup label="Destinations">
-                {destinations.map((d) => (
-                  <option value={d.id} data-title={d.data.title}>{d.data.title}</option>
-                ))}
-              </optgroup>
-            </select>
-          </div>
+        <div>
+          <label for="subject" class={labelClass}>
+            Subject <span class="font-normal text-sand-600">(required)</span>
+          </label>
+          <input id="subject" name="subject" type="text" required aria-describedby="subject-error" class={inputClass} />
+          <p id="subject-error" class={errorClass} role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 h-4 w-4 shrink-0">
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>Please enter a subject.</span>
+          </p>
         </div>
 
         <div>
-          <p class={`${labelClass} mb-2`}>Travel dates <span class="font-normal text-sand-600">(optional)</span></p>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label for="travel_from" class="block text-sm font-medium text-sand-700 mb-1.5">From</label>
-              <input id="travel_from" name="travel_from" type="date" class={inputClass} />
-            </div>
-            <div>
-              <label for="travel_to" class="block text-sm font-medium text-sand-700 mb-1.5">To</label>
-              <input id="travel_to" name="travel_to" type="date" aria-describedby="travel_to-error" class={inputClass} />
-              <p id="travel_to-error" class={errorClass} role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 h-4 w-4 shrink-0">
-                  <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-                <span>The return date should be on or after your departure date.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <fieldset>
-          <legend class={labelClass}>Travellers</legend>
-          <div class="grid grid-cols-3 gap-3">
-            <div>
-              <label for="adults" class="block text-sm text-sand-700 mb-1.5">Adults</label>
-              <input id="adults" name="adults" type="number" min="1" value="1" class={inputClass} />
-            </div>
-            <div>
-              <label for="children" class="block text-sm text-sand-700 mb-1.5">Children</label>
-              <input id="children" name="children" type="number" min="0" value="0" class={inputClass} />
-            </div>
-            <div>
-              <label for="pets" class="block text-sm text-sand-700 mb-1.5">Pets</label>
-              <input id="pets" name="pets" type="number" min="0" value="0" class={inputClass} />
-            </div>
-          </div>
-        </fieldset>
-
-        <div>
-          <label for="message" class={labelClass}>Message</label>
-          <textarea id="message" name="message" rows="4" aria-describedby="message-help" class={`${inputClass} min-h-24 py-3`}></textarea>
-          <p id="message-help" class={helpClass}>Anything we should know? (optional)</p>
+          <label for="message" class={labelClass}>
+            Message <span class="font-normal text-sand-600">(required)</span>
+          </label>
+          <textarea id="message" name="message" rows="5" required aria-describedby="message-error" class={`${inputClass} min-h-28 py-3`}></textarea>
+          <p id="message-error" class={errorClass} role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 h-4 w-4 shrink-0">
+              <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span>Please enter a message.</span>
+          </p>
         </div>
 
         <div>
@@ -164,11 +114,11 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
               class="mt-0.5 h-5 w-5 shrink-0 rounded border-sand-500 text-coral-600 focus:outline-none focus:ring-2 focus:ring-coral-500/40"
             />
             <label for="consent" class="text-sm text-sand-700">
-              I agree that Voia can use these details to reply to my enquiry. See our
+              I agree that Voia can use these details to reply to my message. See our
               <a href="/privacy" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">Privacy Notice</a>.
             </label>
           </div>
-          <p id="consent-help" class="mt-1.5 text-xs text-sand-600">Required to submit your enquiry.</p>
+          <p id="consent-help" class="mt-1.5 text-xs text-sand-600">Required to send your message.</p>
           <p id="consent-error" class={errorClass} role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="mt-0.5 h-4 w-4 shrink-0">
               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
@@ -177,109 +127,45 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
           </p>
         </div>
 
-        <p class="text-sm text-sand-600">
-          Voia stores your enquiry to reply to you. We never sell your data. You can ask us to delete it any time —
-          see the <a href="/privacy" class="font-medium text-teal-700 underline hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">Privacy Notice</a>.
-        </p>
-
         <button
           type="submit"
           id="submit-btn"
           class="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-coral-600 px-5 font-semibold text-white transition-colors hover:bg-coral-700 active:bg-coral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
         >
-          Send enquiry
+          Send message
         </button>
       </form>
 
       <div id="success-panel" class="hidden rounded-2xl bg-success-50 p-6" role="status">
         <h2 id="success-heading" tabindex="-1" class="font-display text-xl font-semibold tracking-tight text-success-700 focus:outline-none">
-          Thanks, <span data-name>there</span> — your enquiry's in.
+          <span data-success-title>Thanks — your message is in.</span>
         </h2>
-        <p class="mt-2 text-success-700">
-          We'll be in touch by email soon. In the meantime, keep exploring.
+        <p id="success-body" class="mt-2 text-success-700">
+          We'll get back to you by email soon.
         </p>
         <a
-          href="/destinations"
+          href="/"
           class="mt-4 inline-flex min-h-10 items-center rounded-lg bg-white px-4 text-sm font-semibold text-success-700 ring-1 ring-success-600 transition-colors hover:bg-success-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success-600 focus-visible:ring-offset-2"
         >
-          Explore destinations
+          Back to home
         </a>
-      </div>
-
-      <div id="error-panel" tabindex="-1" class="hidden mt-6 rounded-2xl bg-error-50 p-6 focus:outline-none" role="alert">
-        <p class="font-semibold text-error-700">Something went wrong sending that.</p>
-        <p class="mt-1 text-error-700">Please try again, or email us at hello@voia.example.</p>
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
-    <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
-    <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
-    <nav aria-label="Footer" class="mt-3 flex flex-wrap items-center justify-center gap-x-1">
-      <a href="/about" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-        About
-      </a>
-      <a href="/contact" aria-current="page" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2 aria-[current=page]:font-semibold aria-[current=page]:text-coral-700">
-        Contact
-      </a>
-    </nav>
-    <p class="mt-1 text-xs text-sand-600">A university project.</p>
-  </footer>
+  <SiteFooter current="contact" />
 </BaseLayout>
 
 <script>
-  const CONSENT_TEXT =
-    "I agree that Voia can use these details to reply to my enquiry. See our Privacy Notice.";
+  const CONTACT_EMAIL = "alexandrugabrielnicola8@gmail.com";
+  const CONSENT_TEXT = "I agree that Voia can use these details to reply to my message. See our Privacy Notice.";
 
-  const form = document.getElementById("enquiry-form") as HTMLFormElement;
+  const form = document.getElementById("contact-form") as HTMLFormElement;
   const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
   const successPanel = document.getElementById("success-panel") as HTMLElement;
   const successHeading = document.getElementById("success-heading") as HTMLElement;
-  const errorPanel = document.getElementById("error-panel") as HTMLElement;
-
-  const tripPrefilled = document.getElementById("trip-prefilled") as HTMLElement;
-  const tripSelectWrap = document.getElementById("trip-select-wrap") as HTMLElement;
-  const tripSlugHidden = document.getElementById("trip_slug_hidden") as HTMLInputElement;
-  const tripTitleHidden = document.getElementById("trip_title_hidden") as HTMLInputElement;
-  const tripPrefilledTitle = document.getElementById("trip-prefilled-title") as HTMLElement;
-  const tripChangeBtn = document.getElementById("trip-change-btn") as HTMLButtonElement;
-  const tripSelect = document.getElementById("trip_select") as HTMLSelectElement;
-
-  // Prefill from ?trip=<slug>&title=<Title>
-  const params = new URLSearchParams(window.location.search);
-  const tripParam = params.get("trip");
-  const titleParam = params.get("title");
-  if (tripParam && titleParam) {
-    tripSlugHidden.value = tripParam;
-    tripTitleHidden.value = titleParam;
-    tripPrefilledTitle.textContent = titleParam;
-    tripPrefilled.classList.remove("hidden");
-    tripSelectWrap.classList.add("hidden");
-  }
-
-  tripChangeBtn.addEventListener("click", () => {
-    const currentSlug = tripSlugHidden.value;
-    tripPrefilled.classList.add("hidden");
-    tripSelectWrap.classList.remove("hidden");
-    const match = [...tripSelect.options].find((o) => o.value === currentSlug);
-    tripSelect.value = match ? match.value : "";
-    tripSlugHidden.value = "";
-    tripTitleHidden.value = "";
-  });
-
-  function getTripSelection() {
-    const isPrefilled = !tripPrefilled.classList.contains("hidden");
-    if (isPrefilled) {
-      return {
-        trip_slug: tripSlugHidden.value || null,
-        trip_title: tripTitleHidden.value || null,
-      };
-    }
-    const opt = tripSelect.selectedOptions[0];
-    if (!opt || !opt.value) return { trip_slug: null, trip_title: null };
-    return { trip_slug: opt.value, trip_title: opt.dataset.title || null };
-  }
+  const successTitle = document.querySelector("[data-success-title]") as HTMLElement;
+  const successBody = document.getElementById("success-body") as HTMLElement;
 
   const errorInputClasses = ["border-error-600"];
   const errorFocusClasses = ["focus:border-error-600", "focus:ring-error-600/40"];
@@ -312,33 +198,43 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
     }
   }
 
-  const validatedFields = ["name", "email", "travel_to", "consent"];
+  const validatedFields = ["name", "email", "subject", "message", "consent"];
 
   function clearAllErrors() {
     validatedFields.forEach(clearFieldError);
   }
 
-  function showSuccess(name: string) {
+  function showSuccess(fallback: boolean) {
     form.classList.add("hidden");
-    errorPanel.classList.add("hidden");
-    const nameSlot = successPanel.querySelector("[data-name]");
-    if (nameSlot) nameSlot.textContent = name || "there";
+    if (fallback) {
+      successTitle.textContent = "We've opened your email app to finish sending.";
+      successBody.textContent =
+        "We couldn't reach our server just now, so we've prefilled an email instead — just hit send there. If nothing opened, email us directly.";
+    } else {
+      successTitle.textContent = "Thanks — your message is in.";
+      successBody.textContent = "We'll get back to you by email soon.";
+    }
     successPanel.classList.remove("hidden");
     successHeading.focus();
   }
 
-  form.addEventListener("submit", async (event) => {
+  function mailtoFallback(name: string, email: string, subject: string, message: string) {
+    const body = `${message}\n\n— ${name} (${email})`;
+    const url = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = url;
+  }
+
+  form.addEventListener("submit", async (event: SubmitEvent) => {
     event.preventDefault();
     clearAllErrors();
-    errorPanel.classList.add("hidden");
 
     const data = new FormData(form);
     const honeypot = (data.get("company") || "").toString().trim();
 
     const name = (data.get("name") || "").toString().trim();
     const email = (data.get("email") || "").toString().trim();
-    const travelFrom = (data.get("travel_from") || "").toString();
-    const travelTo = (data.get("travel_to") || "").toString();
+    const subject = (data.get("subject") || "").toString().trim();
+    const message = (data.get("message") || "").toString().trim();
     const consent = data.get("consent") === "on";
 
     let hasError = false;
@@ -351,8 +247,12 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
       showFieldError("email", "Please enter a valid email address.");
       hasError = true;
     }
-    if (travelFrom && travelTo && travelTo < travelFrom) {
-      showFieldError("travel_to", "The return date should be on or after your departure date.");
+    if (!subject) {
+      showFieldError("subject", "Please enter a subject.");
+      hasError = true;
+    }
+    if (!message) {
+      showFieldError("message", "Please enter a message.");
       hasError = true;
     }
     if (!consent) {
@@ -362,47 +262,39 @@ const errorClass = "mt-1.5 hidden items-start gap-1.5 text-sm text-error-700";
 
     if (hasError) return;
 
-    // Bot trap: silently pretend success, never insert.
+    // Bot trap: silently pretend success, never insert or email.
     if (honeypot) {
-      showSuccess(name);
+      showSuccess(false);
       return;
     }
-
-    const { trip_slug, trip_title } = getTripSelection();
-    const adults = Number(data.get("adults")) || 1;
-    const children = Number(data.get("children")) || 0;
-    const pets = Number(data.get("pets")) || 0;
-    const message = (data.get("message") || "").toString().trim();
 
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending…";
 
-    const { supabase } = await import("../lib/supabase");
-    const { error } = await supabase.from("enquiries").insert({
-      name,
-      email,
-      trip_slug,
-      trip_title,
-      travel_from: travelFrom || null,
-      travel_to: travelTo || null,
-      adults,
-      children,
-      pets,
-      message: message || null,
-      consent: true,
-      consent_text: CONSENT_TEXT,
-    });
+    try {
+      const { supabase } = await import("../lib/supabase");
+      const { error } = await supabase.from("contact_messages").insert({
+        name,
+        email,
+        subject,
+        message,
+        consent: true,
+        consent_text: CONSENT_TEXT,
+      });
 
-    if (error) {
-      console.error("Enquiry insert failed:", error);
+      if (error) throw error;
+      showSuccess(false);
+    } catch (err) {
+      // contact_messages may not exist yet (pending SQL — see
+      // supabase/contact_messages.sql) — degrade to a prefilled mailto: link
+      // rather than losing the message.
+      console.error("Contact message insert failed, falling back to mailto:", err);
+      mailtoFallback(name, email, subject, message);
+      showSuccess(true);
+    } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
-      errorPanel.classList.remove("hidden");
-      errorPanel.focus();
-      return;
     }
-
-    showSuccess(name);
   });
 </script>
