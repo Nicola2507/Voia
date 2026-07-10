@@ -1,0 +1,137 @@
+---
+import VibeIcon from "./VibeIcon.astro";
+import { VIBES } from "../data/vibes";
+
+interface Props {
+  mode: "destinations" | "packages";
+  gridId: string;
+}
+
+const { mode, gridId } = Astro.props;
+const isPackages = mode === "packages";
+
+const chipClass =
+  "vibe-chip inline-flex min-h-10 items-center gap-1.5 rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2";
+const selectClass =
+  "min-h-10 rounded-lg border border-sand-500 bg-white px-3 text-sm text-ink transition focus:border-coral-500 focus:outline-none focus:ring-2 focus:ring-coral-500/40";
+const labelClass = "block text-xs font-medium text-sand-600 mb-1";
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+---
+<div id="filter-bar" data-mode={mode} data-grid={gridId} class="space-y-4">
+  <div>
+    <label for="filter-keyword" class="sr-only">
+      Search {isPackages ? "trips" : "destinations"} by name, place, or activity
+    </label>
+    <div class="relative max-w-md">
+      <span aria-hidden="true" class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sand-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+      </span>
+      <input
+        id="filter-keyword"
+        type="text"
+        autocomplete="off"
+        placeholder={`Search by name, place, or activity…`}
+        class="min-h-11 w-full rounded-lg border border-sand-500 bg-white py-2 pl-10 pr-3.5 text-base text-ink placeholder:text-sand-600 transition focus:border-coral-500 focus:outline-none focus:ring-2 focus:ring-coral-500/40"
+      />
+    </div>
+  </div>
+
+  <div>
+    <p class={labelClass} id="filter-vibes-label">Vibe</p>
+    <div id="filter-vibes" role="group" aria-labelledby="filter-vibes-label" class="flex flex-wrap gap-2">
+      {
+        VIBES.map((vibe) => (
+          <a href={`/vibe/${vibe.slug}`} data-vibe={vibe.slug} role="button" aria-pressed="false" class={chipClass}>
+            <VibeIcon slug={vibe.slug} class="h-4 w-4" />
+            {vibe.name}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-wrap items-end gap-4">
+    <div>
+      <label for="filter-region" class={labelClass}>Region</label>
+      <select id="filter-region" class={selectClass}>
+        <option value="">Any region</option>
+        <option value="romania">Romania</option>
+        <option value="international">International</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="filter-month" class={labelClass}>When do you want to go?</label>
+      <select id="filter-month" class={selectClass}>
+        <option value="">Any month</option>
+        {MONTH_NAMES.map((name, i) => <option value={String(i + 1)}>{name}</option>)}
+      </select>
+    </div>
+
+    {
+      isPackages && (
+        <>
+          <div>
+            <label for="filter-duration" class={labelClass}>Duration</label>
+            <select id="filter-duration" class={selectClass}>
+              <option value="">Any length</option>
+              <option value="1-4">1–4 days</option>
+              <option value="5-7">5–7 days</option>
+              <option value="8+">8+ days</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="filter-travellers" class={labelClass}>Travellers</label>
+            <input
+              id="filter-travellers"
+              type="number"
+              min="1"
+              max="8"
+              value="1"
+              class={`${selectClass} w-20`}
+            />
+          </div>
+
+          <div>
+            <label for="filter-budget" class={labelClass}>Budget (estimated total)</label>
+            <select id="filter-budget" class={selectClass}>
+              <option value="">Any budget</option>
+              <option value="500">Up to €500</option>
+              <option value="1000">Up to €1,000</option>
+              <option value="1500">Up to €1,500</option>
+              <option value="1500+">€1,500+</option>
+            </select>
+          </div>
+        </>
+      )
+    }
+
+    <button
+      type="button"
+      id="filter-clear"
+      class="inline-flex min-h-10 items-center rounded-lg bg-transparent px-3 text-sm font-medium text-teal-700 underline transition-colors hover:text-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+    >
+      Clear all
+    </button>
+  </div>
+
+  <p id="filter-count" role="status" aria-live="polite" class="text-sm font-medium text-sand-700"></p>
+</div>
+
+<div id="filter-empty" hidden class="rounded-2xl bg-sand-100 p-6 sm:p-8">
+  <h2 class="font-display text-lg font-semibold tracking-tight text-ink">
+    No {isPackages ? "trips" : "destinations"} match those filters
+  </h2>
+  <p class="mt-2 text-sand-700">Try widening your search, or clear all filters to start over.</p>
+  <button
+    type="button"
+    class="filter-clear-secondary mt-4 inline-flex min-h-10 items-center rounded-lg bg-white px-4 text-sm font-semibold text-teal-700 ring-1 ring-teal-600 transition-colors hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
+  >
+    Clear all filters
+  </button>
+</div>

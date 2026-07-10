@@ -1,129 +1,59 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import DestinationCard from "../../components/DestinationCard.astro";
-import VibeIcon from "../../components/VibeIcon.astro";
+import FilterBar from "../../components/FilterBar.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
 import { getCollection } from "astro:content";
-import { VIBES } from "../../data/vibes";
 
 const destinations = await getCollection("destinations");
+
+function searchHaystack(d: (typeof destinations)[number]): string {
+  return [d.data.title, d.data.country, d.data.city ?? "", d.data.tagline, d.data.vibes.join(" "), d.data.activities.join(" ")]
+    .join(" ")
+    .toLowerCase();
+}
 ---
 <BaseLayout
   title="Destinations — Voia"
-  description="Explore Voia's destinations — from Romania's Carpathians to Bali's rice terraces. Filter by vibe to find your place."
+  description="Explore Voia's destinations — from Romania's Carpathians to Bali's rice terraces. Filter by vibe, region, or season to find your place."
 >
     <main id="main-content" class="flex-1">
       <section class="mx-auto max-w-5xl px-6 pb-6 pt-4 sm:px-8">
         <h1 class="text-3xl font-bold tracking-tight text-ink md:text-4xl">Destinations</h1>
         <p class="mt-3 max-w-prose text-lg leading-relaxed text-sand-700">
-          Eight places, one for every kind of trip — from a Carpathian fairy tale to a warm-in-winter island. Browse them all, or filter by vibe.
+          Eight places, one for every kind of trip — from a Carpathian fairy tale to a warm-in-winter island. Browse them all, or filter by vibe, region, and season.
         </p>
       </section>
 
-      <section class="mx-auto max-w-5xl px-6 pb-4 sm:px-8">
-        <div role="group" aria-label="Filter destinations by vibe" class="flex flex-wrap gap-2">
-          <a
-            href="/destinations"
-            data-vibe="all"
-            role="button"
-            aria-pressed="true"
-            class="chip inline-flex min-h-10 items-center rounded-full bg-coral-600 px-4 text-sm font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
-          >
-            All
-          </a>
-          {
-            VIBES.map((vibe) => (
-              <a
-                href={`/vibe/${vibe.slug}`}
-                data-vibe={vibe.slug}
-                role="button"
-                aria-pressed="false"
-                class="chip inline-flex min-h-10 items-center gap-1.5 rounded-full bg-sand-100 px-4 text-sm font-medium text-sand-700 transition-colors hover:bg-sand-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2"
-              >
-                <VibeIcon slug={vibe.slug} class="h-4 w-4" />
-                {vibe.name}
-              </a>
-            ))
-          }
-        </div>
-        <p id="vibe-filter-status" role="status" aria-live="polite" class="sr-only" />
+      <section class="mx-auto max-w-5xl px-6 pb-6 sm:px-8">
+        <FilterBar mode="destinations" gridId="destinations-grid" />
       </section>
 
-      <section class="mx-auto max-w-5xl px-6 pb-16 pt-4 sm:px-8">
+      <section class="mx-auto max-w-5xl px-6 pb-16 sm:px-8">
         <div id="destinations-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {
             destinations.map((destination, i) => (
-              <DestinationCard destination={destination} index={i} />
+              <div
+                class="listing-card"
+                data-vibes={destination.data.vibes.join(" ")}
+                data-region={destination.data.region}
+                data-country={destination.data.country.toLowerCase()}
+                data-months={destination.data.seasonMonths.join(",")}
+                data-title={destination.data.title.toLowerCase()}
+                data-search={searchHaystack(destination)}
+              >
+                <DestinationCard destination={destination} index={i} />
+              </div>
             ))
           }
         </div>
       </section>
     </main>
 
-    <footer class="border-t border-sand-200 px-6 py-8 text-center sm:px-8">
-      <p class="font-display text-lg font-semibold text-coral-700">Voia</p>
-      <p class="mt-1 text-sm text-sand-700">Travel the way you feel.</p>
-      <nav aria-label="Footer" class="mt-3 flex flex-wrap items-center justify-center gap-x-1">
-        <a href="/about" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-          About
-        </a>
-        <a href="/contact" class="inline-flex min-h-11 items-center rounded-md px-2 text-sm font-medium text-sand-700 transition-colors hover:text-coral-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500 focus-visible:ring-offset-2">
-          Contact
-        </a>
-      </nav>
-      <p class="mt-1 text-xs text-sand-600">A university project.</p>
-    </footer>
+    <SiteFooter />
 
   <script>
-    const chips = document.querySelectorAll<HTMLAnchorElement>(".chip");
-    const cards = document.querySelectorAll<HTMLAnchorElement>("#destinations-grid > a");
-    const status = document.getElementById("vibe-filter-status");
-
-    function applyFilter(slug: string) {
-      let visibleCount = 0;
-      cards.forEach((card) => {
-        const vibes = (card.dataset.vibes ?? "").split(" ");
-        const show = slug === "all" || vibes.includes(slug);
-        card.hidden = !show;
-        if (show) visibleCount++;
-      });
-
-      chips.forEach((chip) => {
-        const isActive = chip.dataset.vibe === slug;
-        chip.setAttribute("aria-pressed", String(isActive));
-        chip.classList.toggle("bg-coral-600", isActive);
-        chip.classList.toggle("text-white", isActive);
-        chip.classList.toggle("bg-sand-100", !isActive);
-        chip.classList.toggle("text-sand-700", !isActive);
-        chip.classList.toggle("hover:bg-sand-200", !isActive);
-      });
-
-      if (status) {
-        status.textContent = `Showing ${visibleCount} destination${visibleCount === 1 ? "" : "s"}`;
-      }
-    }
-
-    function slugFromHash() {
-      const match = window.location.hash.match(/^#vibe=(.+)$/);
-      return match ? match[1] : "all";
-    }
-
-    chips.forEach((chip) => {
-      chip.addEventListener("click", (event) => {
-        event.preventDefault();
-        const slug = chip.dataset.vibe ?? "all";
-        window.location.hash = slug === "all" ? "" : `vibe=${slug}`;
-        applyFilter(slug);
-      });
-      chip.addEventListener("keydown", (event) => {
-        if (event.key === " " || event.key === "Spacebar") {
-          event.preventDefault();
-          chip.click();
-        }
-      });
-    });
-
-    window.addEventListener("hashchange", () => applyFilter(slugFromHash()));
-
-    applyFilter(slugFromHash());
+    import { initListingFilters } from "../../scripts/listing-filters";
+    initListingFilters("destinations");
   </script>
 </BaseLayout>
